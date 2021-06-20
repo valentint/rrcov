@@ -1,0 +1,39 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# fsdac
+
+R package providing scalable robust estimators with high breakdown point.
+
+## Installation
+
+You can install 'rrcov' from github with:
+
+```{r gh-installation, eval = FALSE}
+# install.packages("remotes")
+remotes::install_github("valentint/rrcov")
+```
+
+## Example
+
+This is a basic example which shows you if the package is properly installed:
+
+```{r example}
+
+library(rrcov)
+data(hbk)
+(out <- CovMcd(hbk))
+
+```
+
