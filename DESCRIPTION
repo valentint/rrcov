@@ -1,0 +1,26 @@
+Package: rrcov
+Version: 1.5-5
+Date: 2020-07-31
+VersionNote: Released 1.5-2 on 2020-01-16 on CRAN
+Title: Scalable Robust Estimators with High Breakdown Point
+Authors@R: c(person("Valentin", "Todorov", role = c("aut", "cre"), email = "valentin.todorov@chello.at", comment=c(ORCID = "0000-0003-4215-0245")))
+Description: Robust Location and Scatter Estimation and Robust
+        Multivariate Analysis with High Breakdown Point:
+        principal component analysis (Filzmoser and Todorov (2013), <doi:10.1016/j.ins.2012.10.017>),
+        linear and quadratic discriminant analysis (Todorov and Pires (2007)),
+        multivariate tests (Todorov and Filzmoser (2010) <doi:10.1016/j.csda.2009.08.015>),
+        outlier detection (Todorov et al. (2010) <doi:10.1007/s11634-010-0075-2>).
+        See also Todorov and Filzmoser (2009) <ISBN-13:978-3838108148>,
+        Todorov and Filzmoser (2010) <doi:10.18637/jss.v032.i03> and
+        Boudt et al. (2019) <doi:10.1007/s11222-019-09869-x>.
+Maintainer: Valentin Todorov <valentin.todorov@chello.at>
+Depends: R (>= 2.10), robustbase (>= 0.92.1), methods
+Imports: stats, stats4, mvtnorm, lattice, pcaPP
+Suggests: grid, MASS
+LazyLoad: yes
+License: GPL (>= 2)
+Repository: CRAN
+Packaged: 2020-07-31 22:53:37 UTC; Share
+NeedsCompilation: yes
+Author: Valentin Todorov [aut, cre] (<https://orcid.org/0000-0003-4215-0245>)
+Date/Publication: 2020-08-03 15:30:02 UTC
