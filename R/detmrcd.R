@@ -400,6 +400,8 @@ eigenEQ <- function(T)
     if(alpha < 1/2 | alpha > 1)
         stop("'alpha' must be between 0.5 and 1.0!")
 
+    ## VT::21.04.2021 - h has to be an integer (a non-integer h will break the sprintf at the end).
+    h <- as.integer(h)
 
     # choose objective function to determine optimal subset
     if (objective == 'det'){

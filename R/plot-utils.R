@@ -327,7 +327,7 @@ myscreeplot <- function(rcov, ccov) {
     txt.leg=c("robust", "classical"), col.leg = c("red", "blue"),
     lty.leg=c("solid", "dashed"),
     xlim,
-    ylim)
+    ylim, ...)
 {
     if (is.data.frame(x))
         x <- data.matrix(x)
@@ -381,7 +381,7 @@ myscreeplot <- function(rcov, ccov) {
     if(missing(ylim))
         ylim <- y1
 
-    plot(x, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, sub=sub)
+    plot(x, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, sub=sub, ...)
     box()
     if(id.n > 0) {
         xrange <- par("usr")
@@ -389,10 +389,10 @@ myscreeplot <- function(rcov, ccov) {
         text(x[ind, 1] + xrange/50, x[ind, 2], ind)
     }
 
-    points(z2, type = "l", lty = lty.leg[1], col = col.leg[1])
+    points(z2, type = "l", lty = lty.leg[1], col = col.leg[1], ...)
     if (classic) {
-        points(z1, type = "l", lty = lty.leg[2], col = col.leg[2])
-        legend("bottomright", txt.leg, lty = lty.leg, col = col.leg)
+        points(z1, type = "l", lty = lty.leg[2], col = col.leg[2], ...)
+        legend("bottomright", txt.leg, lty = lty.leg, col = col.leg, ...)
     }
     invisible()
 }

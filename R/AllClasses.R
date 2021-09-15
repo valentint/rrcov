@@ -317,7 +317,9 @@ setClass("PcaRobust", representation("VIRTUAL"),
                     contains="Pca")
 
 setClass("PcaHubert", representation(alpha = "numeric",
-                                  quan = "numeric"),
+                                     quan = "numeric",
+                                     skew = "logical",
+                                     ao = "Uvector"),
                     contains="PcaRobust")
 setClass("PcaLocantore", representation(),
                     contains="PcaRobust")

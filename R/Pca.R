@@ -135,18 +135,28 @@ myPcaPrint <- function(x, print.x=FALSE, print.loadings=FALSE, ...) {
 ## Internal function to calculate the score and orthogonal distances and the
 ##  appropriate cutoff values for identifying outlying observations
 ##
-##  obj  - the Pca object
-##  data -
+##  obj  - the Pca object. From this object will be used:
+##          - k, eigenvalues, scores
+##          - center and scale
+##  data - the original data (not centered and scaled)
 ##  r    - rank
 ##  crit - criterion for computing cutoff for SD and OD
 ##
-##  - cutoff for score distances: sqrt(qchisq(crit, k)
+##  - cutoff for score distances: sqrt(qchisq(crit, k))
 ##  - cutoff for orthogonal distances: Box (1954)
 ##
+
 pca.distances <- function(obj, data, r, crit=0.975) {
     .distances(data, r, obj, crit)
 }
+
 .distances <- function(data, r, obj, crit=0.975) {
+
+##  VT::28.07.2020 -  - add adjusted for skewed data mode. The 'skew'
+##      parameter will be used only in PcaHubert() to control how to
+##      calculate the distances and their cutoffs.
+
+    skew <- inherits(obj,"PcaHubert") && obj$skew
 
     ## remember the criterion, could be changed by the user
     obj@crit.pca.distances <- crit
@@ -167,6 +177,15 @@ pca.distances <- function(obj, data, r, crit=0.975) {
     obj@sd <- sqrt(mahalanobis(as.matrix(obj@scores[,1:nk]), rep(0, nk), diag(obj@eigenvalues[1:nk], ncol=nk)))
     obj@cutoff.sd <- sqrt(qchisq(crit, obj@k))
 
+    if(skew)
+    {
+        ## In this case (only valid when called from PcaHubert) the
+        ##  SD are the observations' adjusted outlyingness, and the corresponding
+        ##  cutoff value is derived in the same way as for the orthogonal distances.
+        obj@sd <- obj@ao
+        obj@cutoff.sd <- .crit.od(obj@sd, crit=crit, method="skewed")
+    }
+
     ## Compute the orthogonal distances and the corresponding cutoff value
     ##  For each point this is the norm of the difference between the
     ##  centered data and the back-transformed scores
@@ -185,7 +204,9 @@ pca.distances <- function(obj, data, r, crit=0.975) {
     ##  the rank of the data matrix - otherwise set it to 0
     obj@cutoff.od <- 0
     if(obj@k != r) {
-        obj@cutoff.od <- .crit.od(obj@od, crit=crit, classic=inherits(obj,"PcaClassic"))
+        ## the method used for computing the cutoff depends on (a) classic/robust and (b) skew
+        mx <- if(inherits(obj,"PcaClassic")) "classic" else if(skew) "skewed" else "medmad"
+        obj@cutoff.od <- .crit.od(obj@od, crit=crit, method=mx)
     }
 
     ## flag the observations with 1/0 if the distances are less or equal the
@@ -197,24 +218,37 @@ pca.distances <- function(obj, data, r, crit=0.975) {
     return(obj)
 }
 
-.crit.od <- function(od, crit=0.975, umcd=FALSE, quan, classic=FALSE)
+## Adjusted for skewness cutoff of the orthogonal distances:
+##  - cutoff = the largest od_i smaller than Q3({od}) + 1.5 * exp(3 * medcouple({od})) * IQR({od})
+##
+.crit.od <- function(od, crit=0.975, method=c("medmad", "classic", "umcd", "skewed"), quan)
 {
-    od <- od^(2/3)
-    if(classic)
+    method <- match.arg(method)
+    if(method == "skewed")
     {
-        t <- mean(od)
-        s <- sd(od)
-    }else if(umcd)
+        mc <- robustbase::mc(od, maxit=1000)
+        e3mc <- if(mc < 0) 1 else exp(3*mc)
+        cx <- quantile(od, 0.75) + 1.5 * e3mc * IQR(od)
+        cv <- max(od[which(od < cx)])   # take the largest od, smaller than cx
+    } else
     {
-        ms <- unimcd(od, quan=quan)
-        t <- ms$tmcd
-        s <- ms$smcd
-    }else
-    {
-        t <- median(od)
-        s <- mad(od)
+        od <- od^(2/3)
+        if(method == "classic")
+        {
+            t <- mean(od)
+            s <- sd(od)
+        }else if(method == "umcd")
+        {
+            ms <- unimcd(od, quan=quan)
+            t <- ms$tmcd
+            s <- ms$smcd
+        }else
+        {
+            t <- median(od)
+            s <- mad(od)
+        }
+        cv <- (t + s * qnorm(crit))^(3/2)
     }
-    cv <- (t + s * qnorm(crit))^(3/2)
     cv
 }
 
@@ -230,7 +264,7 @@ pca.distances <- function(obj, data, r, crit=0.975) {
 
 ## This is from MM in robustbase, but I want to change it and
 ##  therefore took a copy. Later will update in 'robustbase'
-##  I want to use not 'scale()', but doScale to which i can pass also
+##  I want to use not 'scale()', but doScale to which I can pass also
 ##   a function.
 .classPC <- function(x, scale=FALSE, center=TRUE,
 		    signflip=TRUE, via.svd = n > p, scores=FALSE)
@@ -376,7 +410,7 @@ pca.scoreplot <- function(obj, i=1, j=2, main, id.n=0, ...)
 ##  used a diagonal matrix with the eigenvalues on the diagonal to draw the ellipse
 ##  This is not the case with PP methods, therefore we compute the covariance of
 ##  the scores, considering only the non-outliers
-##      (based on sore and orthogonal distances)
+##      (based on score and orthogonal distances)
 ##
 ##    ev <- c(getEigenvalues(obj)[i], getEigenvalues(obj)[j])
 ##    cpc <- list(center=c(0,0), cov=diag(ev), n.obs=obj@n.obs)

@@ -43,7 +43,7 @@ PcaHubert.formula <- function (formula, data = NULL, subset, na.action, ...)
     res
 }
 
-PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, maxdir=250,
+PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, skew=FALSE, maxdir=250,
     scale=FALSE, signflip=TRUE, crit.pca.distances=0.975, trace=FALSE, ...)
 {
 ## k    -   Number of principal components to compute. If \code{k} is missing,
@@ -180,7 +180,13 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, maxdir=250,
     ## ___Step 2___: Either calculate the standard PCA on the MCD covariance matrix (p<<n)
     ##  or apply the ROBPCA algorithm. If mcd=FALSE, allways apply ROBPCA.
     ##
-    if(ncol(X) <= min(floor(n/5), kmax) & mcd)    # p << n => apply MCD
+    if(mcd && skew)
+    {
+        warning("The adjusted outlyingness algorithm for skewed data (skew=TRUE) cannot be applied with the MCD option (mcd=TRUE): 'mcd=FALSE' will be used.")
+        mcd <- FALSE
+    }
+
+    if(ncol(X) <= min(floor(n/5), kmax) && mcd)    # p << n => apply MCD
     {
         if(trace)
             cat("\nApplying MCD.\n")
@@ -245,46 +251,29 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, maxdir=250,
                             k=k,
                             quan=X.mcd@quan,
                             alpha=alpha,
+                            skew=FALSE,
+                            ao=NULL,
                             n.obs=n)
-
     }
     else                                        # p > n or mcd=FALSE => apply the ROBPCA algorithm
     {
         if(trace)
-            cat("\nApplying the projection method of Hubert.\n")
+            cat("\nApplying the projection method of Hubert: skew=", skew, "\n")
 
-        ##
-        ##  For each direction 'v' through 2 data points we project the n data points xi on v
-        ##  and compute their robustly standardized absolute residual
-        ##  |xi'v - tmcd(xj'v|/smcd(xj'v)
-        ##
-        alldir <- choose(n, 2)                  # all possible directions through two data points - n*(n-1)/2
-        ndir <- min(maxdir, alldir)             # not more than maxdir (250)
-        all <- (ndir == alldir)                 # all directions if n small enough (say n < 25)
-        B <- extradir(X, ndir, all=all)         # the rows of B[ndir, ncol(X)] are the (random) directions
+        ## VT::28.07.2020 - add adjusted for skewed data mode
+        ##  1) in 'skew' mode instead of the SD outlyingness, calculated
+        ##      the adjusted outlyingness, using robustbase
+        ##      function adjOutlyingness()
+        outl <- if(skew) adjOutlyingness(X, ndir=maxdir, alpha.cutoff=alpha, mcfun=mcVT)$adjout
+                else     outl(X, maxdir=maxdir, h=h)
+##      We could use adjOutlyingness() with clower=0 and cupper=0 to compute
+##      the SD outlyingness, will be a bit faster. But the result is slightly
+##      different, I have not invetigate further - adjOutlyingness() generates
+##      maxdir p-samples while outl() gets all directions through two points.
+##
+##                else     adjOutlyingness(X, ndir=maxdir, alpha.cutoff=alpha, clower=0, cupper=0)$adjout
 
-        Bnorm <- vector(mode="numeric", length=nrow(B))   # ndir x 1
-        Bnorm <- apply(B, 1, vecnorm)           #
-        Bnormr <- Bnorm[Bnorm > 1.E-12]         # choose only the nonzero length vectors
-        m <- length(Bnormr)                     # the number of directions that will be used
-        B <- B[Bnorm > 1.E-12,]                 # B[m x ncol(X)]
-        A <- diag(1/Bnormr) %*% B               # A[m x ncol(X)]
-
-        Y <- X %*% t(A)                         # n x m - projections of the n points on each of the m directions
-        Z <- matrix(0,n, m)                     # n x m - to collect the outlyingness of each point on each direction
-        for(i in 1:m) {
-            umcd <- unimcd(Y[,i], quan=h)       # one-dimensional MCD: tmcd and smcd
-
-            if(umcd$smcd < 1.E-12) {
-                ## exact fit situation: will not be handled
-                if((r2 <- rankMM(data[umcd$weights==1,])) == 1)
-                    stop("At least ", sum(umcd$weights), " observations are identical.")
-            }
-            else
-                Z[,i] <- abs(Y[,i] - umcd$tmcd) / umcd$smcd
-        }
-
-        H0 <- order(apply(Z, 1, max))           # n x 1 - the outlyingnesses of all n points
+        H0 <- order(outl)                       # index of the observations ordered by (increasing) outlyingness
         Xh <- X[H0[1:h],,drop=FALSE]            # the h data points with smallest outlyingness.
                                                 # VT::24.04.2020 Keep Xh as a mtrix, otherwise .classPC will not work.
         Xh.svd <- .classPC(Xh)
@@ -330,9 +319,27 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, maxdir=250,
             Xtilde <- XRc %*% Xh.svd$loadings[,1:k] %*% t(Xh.svd$loadings[,1:k])
             Rdiff <- XRc - Xtilde
             odh <- apply(Rdiff, 1, vecnorm)
-            umcd <- unimcd(odh^(2/3), h)
-            cutoffodh <- sqrt(qnorm(0.975, umcd$tmcd, umcd$smcd)^3)
+
+            ##
+            ##  VT::28.07.2020 - replace the calculation of the cutoff for od
+            ##      by a call to .crit.od().
+            ##      2) In adjusted for skewed data mode replace the cutoff for
+            ##      the orthogonal distances.
+            ##
+            ##            umcd <- unimcd(odh^(2/3), h)
+            ##            cutoffodh <- sqrt(qnorm(0.975, umcd$tmcd, umcd$smcd)^3)
+            ##
+            cutoffodh <- .crit.od(odh, crit=0.975, method=ifelse(skew, "skewed", "umcd"), quan=h)
             indexset <- (odh <= cutoffodh)
+
+            if(trace)
+            {
+                cat("\n.........: ", cutoffodh)
+                cat("\numcd.....: ", .crit.od(odh, method="umcd", quan=h), "\n")
+                cat("\nmedmad...: ", .crit.od(odh), "\n")
+                cat("\nskewed...: ", .crit.od(odh, method="skewed"), "\n")
+                cat("\nclassic..: ", .crit.od(odh, method="classic"), "\n")
+            }
 
             Xh.svd <- .classPC(X[indexset,])
             k <- min(Xh.svd$rank, k)
@@ -352,86 +359,18 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, maxdir=250,
         X2 <- as.matrix(X2[ ,1:k])
         rot <- as.matrix(rot[ ,1:k])
 
-        ## Perform now MCD on X2 in order to obtain a robust scatter matrix: find h data points whose
-        ##  covariance matrix has minimal determinant
-        ##
-        ## First apply C-step with the h points selected in the first step, i.e. those that
-        ## determine the covariance matrix after the C-steps have converged.
-        ##
-        mah <- mahalanobis(X2, center=rep(0, ncol(X2)), cov=diag(Xh.svd$eigenvalues[1:k], nrow=k))
-        oldobj <- prod(Xh.svd$eigenvalues[1:k])
-        niter <- 100
-        for(j in 1:niter) {
-            if(trace)
-                cat("\nIter=",j, " h=", h, " k=", k, " obj=", oldobj, "\n")
-            Xh <- X2[order(mah)[1:h], ]
-            Xh.svd <- .classPC(as.matrix(Xh))
-            obj <- prod(Xh.svd$eigenvalues)
-            X2 <- (X2 - matrix(rep(Xh.svd$center, times=n), nrow=n, byrow=TRUE)) %*% Xh.svd$loadings
+        ##  VT::28.07.2020 -  - add adjusted fore skewed data mode
+        ##      3) Adjusted mode for skewed data: Instead of applying the reweighted
+        ##      MCD estimator, we calculate the adjusted outlyingness in the
+        ##      k-dimensional subspace V_1 and compute the mean and covariance
+        ##      matrix of the h points with the lowest adjusted outlyingness.
+        outproj <- if(skew) projectAO(X2, k=k, alpha=alpha, h=h, rot=rot, center=center, scale=myscale, maxdir=maxdir, trace=trace)
+                   else projectMCD(X2, ev=Xh.svd$eigenvalues, k=k, alpha=alpha, h=h, niter=100, rot=rot, center=center, scale=myscale, trace=trace)
 
-            ##  VT::19.08.2016: we need also to rescale back the MCD center,
-            ##  before adding it to the original center
-##            center <- center + Xh.svd$center %*% t(rot)
-            center <- center + sweep(Xh.svd$center %*% t(rot), 2, myscale, "*")
-
-            rot <- rot %*% Xh.svd$loadings
-            mah <- mahalanobis(X2, center=matrix(0,1, ncol(X2)), cov=diag(Xh.svd$eigenvalues, nrow=length(Xh.svd$eigenvalues)))
-            if(Xh.svd$rank == k & abs(oldobj - obj) < 1.E-12)
-                break
-
-            oldobj <- obj
-            if(Xh.svd$rank < k) {
-                j <- 1
-                k <- Xh.svd$rank
-            }
-        }
-
-        ## Perform now MCD on X2
-        X2mcd <- CovMcd(X2, nsamp=250, alpha=alpha)
-        if(trace)
-            cat("\nMCD crit=",X2mcd@crit," and C-Step obj function=",obj," Abs difference=", abs(X2mcd@crit-obj), "\n")
-
-        ## VT::14.12.2009 - if there is even a slight difference between mcd$crit and obj
-        ## and it is on the negative side, the following reweighting step will be triggered,
-        ## which could lead to unwanted difference in the results. Therefore compare with
-        ## a tolerance 1E-16.
-        eps <- 1e-16
-        if(X2mcd@crit < obj + eps)
-        {
-            X2cov <- getCov(X2mcd)
-            X2center <- getCenter(X2mcd)
-            if(trace)
-                cat("\nFinal step - PC of MCD cov used.\n")
-        }else
-        {
-            consistencyfactor <- median(mah)/qchisq(0.5,k)
-            mah <- mah/consistencyfactor
-            weights <- ifelse(mah <= qchisq(0.975, k), TRUE, FALSE)
-
-##          VT::27.08.2010 - not necessary, cov.wt is doing it properly
-##            wcov <- .wcov(X2, weights)
-            wcov <- cov.wt(x=X2, wt=weights, method="ML")
-            X2center <- wcov$center
-            X2cov <- wcov$cov
-            if(trace)
-                cat("\nFinal step - PC of a reweighted cov used.\n")
-        }
-
-        ee <- eigen(X2cov)
-        P6 <- ee$vectors
-
-        ##  VT::19.08.2016: we need also to rescale back the MCD center,
-        ##  before adding it to the original center
-##        center <- as.vector(center + X2center %*% t(rot))
-        center <- as.vector(center + sweep(X2center %*% t(rot), 2, myscale, "*"))
-
-        eigenvalues <- ee$values
-        loadings <- rot %*% P6
-##        if(signflip)
-##            loadings <- .signflip(loadings)
-
-        scores <- (X2 - matrix(rep(X2center, times=n), nrow=n, byrow=TRUE)) %*% P6
-##        scores <- doScale(data, center, myscale)$x %*% loadings
+        center <- outproj$center
+        eigenvalues <- outproj$eigenvalues
+        loadings <- outproj$loadings
+        scores <- outproj$scores
 
         if(is.list(dimnames(data)) && !is.null(dimnames(data)[[1]]))
         {
@@ -451,6 +390,8 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, maxdir=250,
                             k=k,
                             quan=h,
                             alpha=alpha,
+                            skew=skew,
+                            ao=outproj$ao,
                             n.obs=n)
 
     }
@@ -538,6 +479,47 @@ extradir <- function(data, ndirect, all=TRUE){
     return(B2)
 }
 
+outl <- function(X, maxdir=250, h)
+{
+    if(!is.matrix(X))
+        X <- as.matrix(X)
+    n <- nrow(X)
+    p <- ncol(X)
+
+    ##  For each direction 'v' through 2 data points we project the n data points xi on v
+    ##  and compute their robustly standardized absolute residual
+    ##  |xi'v - tmcd(xj'v|/smcd(xj'v)
+    ##
+    alldir <- choose(n, 2)                  # all possible directions through two data points - n*(n-1)/2
+    ndir <- min(maxdir, alldir)             # not more than maxdir (250)
+    all <- (ndir == alldir)                 # all directions if n small enough (say n < 25)
+    B <- extradir(X, ndir, all=all)         # the rows of B[ndir, ncol(X)] are the (random) directions
+
+    Bnorm <- vector(mode="numeric", length=nrow(B))     # ndir x 1
+    Bnorm <- apply(B, 1, vecnorm)               #
+    Bnormr <- Bnorm[Bnorm > 1.E-12]         # choose only the nonzero length vectors
+    m <- length(Bnormr)                     # the number of directions that will be used
+    B <- B[Bnorm > 1.E-12,]                 # B[m x ncol(X)]
+    A <- diag(1/Bnormr) %*% B               # A[m x ncol(X)]
+
+    Y <- X %*% t(A)                         # n x m - projections of the n points on each of the m directions
+    Z <- matrix(0,n, m)                     # n x m - to collect the outlyingness of each point on each direction
+    for(i in 1:m) {
+        umcd <- unimcd(Y[,i], quan=h)       # one-dimensional MCD: tmcd and smcd
+
+        if(umcd$smcd < 1.E-12) {
+            ## exact fit situation: will not be handled
+            if((r2 <- rankMM(X[umcd$weights==1,])) == 1)
+                stop("At least ", sum(umcd$weights), " observations are identical.")
+        }
+        else
+            Z[,i] <- abs(Y[,i] - umcd$tmcd) / umcd$smcd
+    }
+
+    outl <- apply(Z, 1, max)    # n x 1 - the outlyingnesses of all n points
+    outl
+}
+
 unimcd <- function(y, quan){
     out <- list()
     ncas <- length(y)
@@ -581,4 +563,117 @@ unimcd <- function(y, quan){
         out$weights<-out$weights[Iinv]
     }
     return(out)
+}
+
+##  Performs the last part of ROBPCA when k is already determined
+##  - Adjusted for skewness mode
+##
+##  X2:     the projected data
+##  k:      the number of components
+##  h:      lower bound for regular observations
+##  rot:    the rotation matrix
+##  center: the classical center of the data
+##
+projectAO <- function(X2, k, alpha, h, rot, center, scale, maxdir, trace)
+{
+    ao <- adjOutlyingness(X2, ndir=maxdir, alpha.cutoff=alpha)
+    o2 <- ao$adjout
+    H <- order(o2)
+    X2h <- as.matrix(X2[H[1:h], ])
+    ee <- eigen(cov(X2h))
+    P6 <- ee$vectors
+    X2center <- colMeans(X2h)
+
+    if(trace)
+        cat("\nFinal step - adjusted outlyingness in ", k, "-dimensional subspace used.\n")
+
+    ## MCD is replaced by mean and covariance of h points
+    ##  with smallest adjusted outlyingness in the k-dimensional subspace.
+    center <- as.vector(center + sweep(X2center %*% t(rot), 2, scale, "*"))
+    eigenvalues <- ee$values
+    loadings <- rot %*% P6
+    scores <- sweep(X2, 2, X2center, "-") %*% P6
+
+    list(eigenvalues=eigenvalues, loadings=loadings, scores=scores, center=center, ao=o2, ao.cutoff=as.numeric(ao$cutoff))
+}
+
+## Perform now MCD on X2 in order to obtain a robust scatter matrix: find h data points whose
+##  covariance matrix has minimal determinant
+##
+projectMCD <- function(X2, ev, k, alpha, h, niter=100, rot, center, scale, trace=trace)
+{
+    n <- nrow(X2)
+
+    ## First apply C-step with the h points selected in the first step, i.e. those that
+    ## determine the covariance matrix after the C-steps have converged.
+    ##
+    mah <- mahalanobis(X2, center=rep(0, ncol(X2)), cov=diag(ev[1:k], nrow=k))
+    oldobj <- prod(ev[1:k])
+    for(j in 1:niter) {
+        if(trace)
+            cat("\nIter=",j, " h=", h, " k=", k, " obj=", oldobj, "\n")
+
+        Xh <- X2[order(mah)[1:h], ]
+        Xh.svd <- .classPC(as.matrix(Xh))
+        obj <- prod(Xh.svd$eigenvalues)
+        X2 <- (X2 - matrix(rep(Xh.svd$center, times=n), nrow=n, byrow=TRUE)) %*% Xh.svd$loadings
+
+        ##  VT::19.08.2016: we need also to rescale back the MCD center,
+        ##  before adding it to the original center
+##            center <- center + Xh.svd$center %*% t(rot)
+        center <- center + sweep(Xh.svd$center %*% t(rot), 2, scale, "*")
+
+        rot <- rot %*% Xh.svd$loadings
+        mah <- mahalanobis(X2, center=matrix(0,1, ncol(X2)), cov=diag(Xh.svd$eigenvalues, nrow=length(Xh.svd$eigenvalues)))
+        if(Xh.svd$rank == k & abs(oldobj - obj) < 1.E-12)
+            break
+
+        oldobj <- obj
+        if(Xh.svd$rank < k) {
+            j <- 1
+            k <- Xh.svd$rank
+        }
+    }
+
+    ## Perform now MCD on X2
+    X2mcd <- CovMcd(X2, nsamp=250, alpha=alpha)
+    if(trace)
+        cat("\nMCD crit=",X2mcd@crit," and C-Step obj function=",obj," Abs difference=", abs(X2mcd@crit-obj), "\n")
+
+    ## VT::14.12.2009 - if there is even a slight difference between mcd$crit and obj
+    ## and it is on the negative side, the following reweighting step will be triggered,
+    ## which could lead to unwanted difference in the results. Therefore compare with
+    ## a tolerance 1E-16.
+    eps <- 1e-16
+    if(X2mcd@crit < obj + eps)
+    {
+        X2cov <- getCov(X2mcd)
+        X2center <- getCenter(X2mcd)
+        if(trace)
+            cat("\nFinal step - PC of MCD cov used.\n")
+    }else
+    {
+        consistencyfactor <- median(mah)/qchisq(0.5,k)
+        mah <- mah/consistencyfactor
+        weights <- ifelse(mah <= qchisq(0.975, k), TRUE, FALSE)
+
+        wcov <- cov.wt(x=X2, wt=weights, method="ML")
+        X2center <- wcov$center
+        X2cov <- wcov$cov
+        if(trace)
+            cat("\nFinal step - PC of a reweighted cov used.\n")
+    }
+
+    ee <- eigen(X2cov)
+    P6 <- ee$vectors
+
+    ##  VT::19.08.2016: we need also to rescale back the MCD center,
+    ##  before adding it to the original center
+##        center <- as.vector(center + X2center %*% t(rot))
+    center <- as.vector(center + sweep(X2center %*% t(rot), 2, scale, "*"))
+    eigenvalues <- ee$values
+    loadings <- rot %*% P6
+    scores <- (X2 - matrix(rep(X2center, times=n), nrow=n, byrow=TRUE)) %*% P6
+
+    list(eigenvalues=eigenvalues, loadings=loadings, scores=scores, center=center)
 }

@@ -1,8 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# fsdac
-
 R package providing scalable robust estimators with high breakdown
 point.
 
@@ -24,7 +22,7 @@ installed:
 
 library(rrcov)
 #> Loading required package: robustbase
-#> Scalable Robust Estimators with High Breakdown Point (version 1.6-0)
+#> Scalable Robust Estimators with High Breakdown Point (version 1.5-5)
 data(hbk)
 (out <- CovMcd(hbk))
 #> 

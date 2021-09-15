@@ -53,12 +53,11 @@ Linda(x, ...)
     Todorov, V. and Pires, A.M. (2007) Comparative Performance of Several Robust
         Linear Discriminant Analysis Methods.
         \emph{REVSTAT Statistical Journal}, \bold{5}, p 63--83.
-        URL \url{http://www.ine.pt/revstat/pdf/rs070104.pdf}.
 
     Todorov V and Filzmoser P (2009),
       An Object Oriented Framework for Robust Multivariate Analysis.
       \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-      URL \url{http://www.jstatsoft.org/v32/i03/}.
+      URL \url{https://www.jstatsoft.org/article/view/v032i03}.
 }
 \author{ Valentin Todorov \email{valentin.todorov@chello.at}
 }

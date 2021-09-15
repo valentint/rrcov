@@ -4,6 +4,20 @@
 \title{News for \R Package \pkg{rrcov}}
 \encoding{UTF-8}
 
+\section{CHANGES in rrcov VERSION 1.6-0 (2021-08-27)}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item PcaHubert: option for adjusted outlyingness for skewed data added
+      \item Data set Computer Hardware added: machines.rda
+      \item Data set Wolves added: wolves.rda
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Fixed some URLs, particularly the reference to https.javasoft.org
+    }
+  }
+}  
 \section{CHANGES in rrcov VERSION 1.5-5 (2020-07-31)}{
   \subsection{BUG FIXES}{
     \itemize{

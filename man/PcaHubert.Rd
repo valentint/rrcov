@@ -13,7 +13,7 @@
 }
 \usage{
 PcaHubert(x, ...)
-\method{PcaHubert}{default}(x, k = 0, kmax = 10, alpha = 0.75, mcd = TRUE, 
+\method{PcaHubert}{default}(x, k = 0, kmax = 10, alpha = 0.75, mcd = TRUE, skew=FALSE,
 maxdir=250, scale = FALSE, signflip = TRUE, crit.pca.distances = 0.975, trace=FALSE, \dots)
 \method{PcaHubert}{formula}(formula, data = NULL, subset, na.action, \dots)
 }
@@ -51,8 +51,12 @@ maxdir=250, scale = FALSE, signflip = TRUE, crit.pca.distances = 0.975, trace=FA
     hence the function \code{\link{CovMcd}()} is automatically called. The number of 
     principal components is then taken as k = rank(x). Default is \code{mcd=TRUE}.
     If \code{mcd=FALSE}, the ROBPCA algorithm is always applied.}
+  \item{skew}{Logical - whether the adjusted outlyingness algorithm for skewed 
+    data (Hubert et al., 2009) will be used, default is \code{skew=FALSE}.}
   \item{maxdir}{maximal number of random directions to use for computing the 
-    outlyingness of the data points. Default is \code{maxdir=250}. If the number \code{n}
+    outlyingness (or the adjusted outlyingness when \code{skew=TRUE}) of the data points, 
+    see \code{\link[robustbase]{adjOutlyingness}} for more details.. 
+    Default is \code{maxdir=250}. If the number \code{n}
     of observations is small all possible \code{n*(n-1)/2} pairs of observations 
     are taken to generate the directions.}
   \item{scale}{a value indicating whether and how the variables should be scaled. 
@@ -125,10 +129,13 @@ yield the robust principal components.
     M. Hubert, P. J. Rousseeuw, K. Vanden Branden (2005), ROBPCA: a new 
     approach to robust principal components analysis, \emph{Technometrics}, \bold{47}, 64--79.   
     
-  Todorov V & Filzmoser P (2009),
-  An Object Oriented Framework for Robust Multivariate Analysis.
-  \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-  URL \url{http://www.jstatsoft.org/v32/i03/}.    
+    M. Hubert, P. J. Rousseeuw and T. Verdonck (2009), Robust PCA for skewed data and 
+    its outlier map, \emph{Computational Statistics & Data Analysis}, \bold{53}, 2264--2274.
+
+    Todorov V & Filzmoser P (2009),
+    An Object Oriented Framework for Robust Multivariate Analysis.
+    \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
+    URL \url{https://www.jstatsoft.org/article/view/v032i03}.    
 }
 \author{ Valentin Todorov \email{valentin.todorov@chello.at} 
 }

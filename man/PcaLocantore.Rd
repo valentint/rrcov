@@ -81,13 +81,13 @@ and "default" methods. For details see the relevant references.
   Todorov V & Filzmoser P (2009),
   An Object Oriented Framework for Robust Multivariate Analysis.
   \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-  URL \url{http://www.jstatsoft.org/v32/i03/}.
+  URL \url{https://www.jstatsoft.org/article/view/v032i03}.
 
 }
 \author{ Valentin Todorov \email{valentin.todorov@chello.at} 
     The SPC algorithm is implemented on the bases of the available from 
     the web site of the book Maronna et al. (2006) code  
-    \url{http://www.wiley.com/legacy/wileychi/robust_statistics/}
+    \url{https://www.wiley.com/legacy/wileychi/robust_statistics/}
 }
 %\note{}
 \examples{

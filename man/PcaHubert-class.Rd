@@ -19,7 +19,9 @@ Objects can be created by calls of the form \code{new("PcaHubert", ...)} but the
     \describe{
         \item{\code{alpha}:}{Object of class \code{"numeric"} the fraction of outliers
             the algorithm should resist - this is the argument alpha}
-        \item{\code{quan}:}{Object of class \code{"numeric"} The quantile \code{h} used throughout the algorithm }
+        \item{\code{quan}:}{The quantile \code{h} used throughout the algorithm }
+        \item{\code{skew}:}{Whether the adjusted outlyingness algorithm for skewed data was used}
+        \item{\code{ao}:}{Object of class \code{"Uvector"} Adjusted outlyingness within the robust PCA subspace }
         \item{\code{call}, \code{center}, \code{loadings},
             \code{eigenvalues}, \code{scores}, \code{k},
             \code{sd}, \code{od}, \code{cutoff.sd}, \code{cutoff.od},
@@ -42,7 +44,7 @@ Class \code{"\linkS4class{Pca}"}, by class "PcaRobust", distance 2.
   Todorov V & Filzmoser P (2009),
   An Object Oriented Framework for Robust Multivariate Analysis.
   \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-  URL \url{http://www.jstatsoft.org/v32/i03/}.
+  URL \url{https://www.jstatsoft.org/article/view/v032i03}.
 }
 \author{ Valentin Todorov \email{valentin.todorov@chello.at} }
 \seealso{

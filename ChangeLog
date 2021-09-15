@@ -1,11 +1,20 @@
-2020-07-31  Valentin Todorov  <valentin.todorov@chello.at>
+2021-09-15  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.6-0
+    *
+    * R/PcaHubert.R - option for adjusted outlyingness for skewed data added
+    * data/machines.rda - data set Computer Hardware added
+    * data/wolves.rda - data set 'wolves' added
+    * Fixed some URLs, particularly the reference to https.javasoft.org
+
+2020-08-03  Valentin Todorov  <valentin.todorov@chello.at>
     *
     * DESCRIPTION (Version): 1.5-5
     *
     * R/PcaHubert.R - PcaHubert will crash if X is 1-dimensional and mcd=FALSE: fixed
     * R/PcaProj.R - fixed a problem with wrong scores (reported by Matthieu Lesnoff <matthieu.lesnoff@gmail.com>)
-    * R/CovMve.R, CovSest.R - fixed a problem with nsamp="exact" or nsamp="best" 
-    *       (reported by Claudio Agostinelli) - these functions, differently from CovMcd, 
+    * R/CovMve.R, CovSest.R - fixed a problem with nsamp="exact" or nsamp="best"
+    *       (reported by Claudio Agostinelli) - these functions, differently from CovMcd,
     *       should not take non-numeric 'nsamp'
     * tests/tlda.R, togk4.R: fixed 'noLD' issues in tlda.R and okg4.R
     *

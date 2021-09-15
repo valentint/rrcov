@@ -81,7 +81,7 @@
       Todorov V & Filzmoser P (2009),
       An Object Oriented Framework for Robust Multivariate Analysis.
       \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-      URL \url{http://www.jstatsoft.org/v32/i03/}.
+      URL \url{https://www.jstatsoft.org/article/view/v032i03}.
 }
 \seealso{
   \code{\link[robustbase]{covMcd}}, \code{\link{Cov-class}},
