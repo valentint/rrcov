@@ -9,6 +9,7 @@
 version](https://www.r-pkg.org/badges/version/rrcov)](https://cran.r-project.org/package=rrcov)
 [![R-CMD-check](https://github.com/valentint/rrcov/workflows/R-CMD-check/badge.svg)](https://github.com/valentint/rrcov/actions)
 [![downloads](https://cranlogs.r-pkg.org/badges/rrcov)](https://cran.r-project.org/package=rrcov)
+[![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 <!-- badges: end -->
 
 The package `rrcov` provides scalable robust estimators with high
