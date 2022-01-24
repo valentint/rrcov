@@ -3,9 +3,13 @@
 
 # `rrcov`: Scalable Robust Estimators with High Breakdown Point
 
+<!-- badges: start -->
+
 [![CRAN
 version](https://www.r-pkg.org/badges/version/rrcov)](https://cran.r-project.org/package=rrcov)
+[![R-CMD-check](https://github.com/valentint/rrcov/workflows/R-CMD-check/badge.svg)](https://github.com/valentint/rrcov/actions)
 [![downloads](https://cranlogs.r-pkg.org/badges/rrcov)](https://cran.r-project.org/package=rrcov)
+<!-- badges: end -->
 
 The package `rrcov` provides scalable robust estimators with high
 breakdown point and covers a large number of robustified multivariate
