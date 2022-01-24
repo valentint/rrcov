@@ -56,7 +56,8 @@ PcaProj.default <- function(x, k=0, kmax=ncol(x),
     ##
     ## verify and set the input parameters: k and kmax
     ##
-    kmax <- max(min(floor(kmax), rankMM(x)),1)
+    myrank <- rankMM(data)
+    kmax <- max(min(floor(kmax), myrank),1)
     if((k <- floor(k)) < 0)
         k <- 0
     else if(k > kmax) {
@@ -76,7 +77,7 @@ PcaProj.default <- function(x, k=0, kmax=ncol(x),
     {
         scale <- if(scale) sd else  NULL
     }
-    out <- PCAproj(x, k, scale=scale, ...)
+    out <- PCAproj(data, k, scale=scale, ...)
 
     center   <- out$center
     scale <- out$scale
@@ -86,7 +87,7 @@ PcaProj.default <- function(x, k=0, kmax=ncol(x),
 ## VT::31.07.2020
 ##    scores <- predict(out)
 ##    scores   <- as.matrix(scores[, 1:k])
-    scores <- (x- matrix(rep(center, nrow(x)), nrow = nrow(x), byrow = TRUE)) %*% loadings
+    scores <- (data - matrix(rep(center, nrow(data)), nrow = nrow(data), byrow = TRUE)) %*% loadings
 
     eigenvalues  <- (sdev^2)[1:k]
 
@@ -100,6 +101,7 @@ PcaProj.default <- function(x, k=0, kmax=ncol(x),
     ## fix up call to refer to the generic, but leave arg name as `formula'
     cl[[1]] <- as.name("PcaProj")
     res <- new("PcaProj", call=cl,
+                            rank=myrank,
                             loadings=loadings,
                             eigenvalues=eigenvalues,
                             center=center,
@@ -109,6 +111,6 @@ PcaProj.default <- function(x, k=0, kmax=ncol(x),
                             n.obs=n)
 
     ## Compute distances and flags
-    res <- pca.distances(res, x, p, crit.pca.distances)
+    res <- pca.distances(res, data, p, crit.pca.distances)
     return(res)
 }

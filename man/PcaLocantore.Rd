@@ -6,7 +6,7 @@
 \description{
 The Spherical Principal Components procedure was proposed by 
 Locantore et al., (1999) as a functional data analysis method.
-The idea is to perform classical PCA on the data, \
+The idea is to perform classical PCA on the data,
 projected onto a unit sphere. The estimates of the eigenvectors are consistent 
 and the procedure is extremely fast. The simulations of Maronna (2005) show
 that this method has very good performance. 
@@ -54,7 +54,7 @@ PcaLocantore(x, ...)
   \item{signflip}{a logical value indicating wheather to try to solve 
     the sign indeterminancy of the loadings -   ad hoc approach setting 
     the maximum element in a singular vector to be positive. Default is 
-    \code{signflip = FALSE}}
+    \code{signflip = TRUE}}
   \item{crit.pca.distances}{criterion to use for computing the cutoff 
   values for the orthogonal and score distances. Default is 0.975.}
   \item{trace}{whether to print intermediate results. Default is \code{trace = FALSE}}
@@ -78,18 +78,15 @@ and "default" methods. For details see the relevant references.
     R. Maronna (2005). Principal components and orthogonal regression based 
     on robust scales. Technometrics, 47, 264-273.    
     
-  Todorov V & Filzmoser P (2009),
-  An Object Oriented Framework for Robust Multivariate Analysis.
+  Todorov V & Filzmoser P (2009), An Object Oriented Framework for Robust Multivariate Analysis. 
   \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-  URL \url{https://www.jstatsoft.org/article/view/v032i03}.
-
+  \doi{10.18637/jss.v032.i03}.
 }
 \author{ Valentin Todorov \email{valentin.todorov@chello.at} 
     The SPC algorithm is implemented on the bases of the available from 
     the web site of the book Maronna et al. (2006) code  
     \url{https://www.wiley.com/legacy/wileychi/robust_statistics/}
 }
-%\note{}
 \examples{
 ## PCA of the Hawkins Bradu Kass's Artificial Data
 ##  using all 4 variables

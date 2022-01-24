@@ -94,10 +94,9 @@ covMest(x, cor=FALSE, r = 0.45, arp = 0.05, eps=1e-3,
     D.M.Rocke and D.L.Woodruff (1996) Identification of outliers in multivariate data \emph{Journal
     of the American Statistical Association}, \bold{91}, 1047--1061.
 
-      Todorov V & Filzmoser P (2009),
-      An Object Oriented Framework for Robust Multivariate Analysis.
-      \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-      URL \url{https://www.jstatsoft.org/article/view/v032i03}.
+  Todorov V & Filzmoser P (2009), An Object Oriented Framework for Robust Multivariate Analysis. 
+  \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
+  \doi{10.18637/jss.v032.i03}.
 }
 \seealso{
   \code{\link[robustbase]{covMcd}}

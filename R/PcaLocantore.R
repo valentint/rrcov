@@ -60,7 +60,8 @@ PcaLocantore.default <- function(x, k=ncol(x), kmax=ncol(x), delta = 0.001, na.a
     ##
     ## verify and set the input parameters: k and kmax
     ##
-    kmax <- max(min(floor(kmax), rankMM(x)),1)
+    myrank <- rankMM(x)
+    kmax <- max(min(floor(kmax), myrank),1)
     if((k <- floor(k)) < 0)
         k <- 0
     else if(k > kmax) {
@@ -124,16 +125,22 @@ PcaLocantore.default <- function(x, k=ncol(x), kmax=ncol(x), delta = 0.001, na.a
     }
 
     ## no scaling - we have already scaled with MAD
-    out = PcaClassic(y, k=k, kmax=kmax, scale=FALSE, signflip=signflip, ...)
+    if(k == 0)      # let PcaClassic guess the number of components to select
+    {
+        out = PcaClassic(y, k=k, kmax=kmax, scale=FALSE, signflip=signflip, ...)
+        k <- out@k
+    }
 
-    k <- out@k
+    ## This will return all components, later we will select the first k
+    out = PcaClassic(y, scale=FALSE, signflip=signflip, ...)
+
     scores = y %*% out@loadings             # these are (slightly) diferent from the scores returned by PcaClassic
                                             #   because PcaClassic will center by the mean the already centered data
     # use these scores to compute the standard deviations (mad)
     sdev = apply(scores, 2, "mad")
     names2 = names(sdev)
     orsdev = order(sdev)            # sort the sdevs (although almost always they will be sorted)
-    orsdev = rev(orsdev)            # use them to sort the laodings, etc.
+    orsdev = rev(orsdev)            # use them to sort the loadings, etc.
     sdev  = sdev[orsdev]
     scores  = scores[,orsdev, drop=FALSE]
     loadings = out@loadings[,orsdev, drop=FALSE]
@@ -147,9 +154,11 @@ PcaLocantore.default <- function(x, k=ncol(x), kmax=ncol(x), delta = 0.001, na.a
     scale       <- sc
     center      <- doScale(t(as.vector(mu)), center=NULL, scale=1/scale)$x      # rescale back to the original data
     scores      <- doScale(x, center, scale)$x %*% loadings                     # compute the scores
-    scores      <- scores[, 1:k, drop=FALSE]                                    # select only fist k 
+    scores      <- scores[, 1:k, drop=FALSE]                                    # select only fist k
     loadings    <- loadings[, 1:k, drop=FALSE]
     eigenvalues <- (sdev^2)[1:k]
+    eig0 <- sdev^2
+    totvar0 <- sum(eig0)
 
 ######################################################################
     names(eigenvalues) <- NULL
@@ -164,13 +173,16 @@ PcaLocantore.default <- function(x, k=ncol(x), kmax=ncol(x), delta = 0.001, na.a
     ## fix up call to refer to the generic, but leave arg name as <formula>
     cl[[1]] <- as.name("PcaLocantore")
     res <- new("PcaLocantore", call=cl,
+                            rank=myrank,
                             loadings=loadings,
                             eigenvalues=eigenvalues,
                             center=center,
                             scale=scale,
                             scores=scores,
                             k=k,
-                            n.obs=n)
+                            n.obs=n,
+                            eig0=eig0,
+                            totvar0=totvar0)
 
     ## Compute distances and flags
     res <- pca.distances(res, x, p, crit.pca.distances)

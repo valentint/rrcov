@@ -4,6 +4,23 @@
 \title{News for \R Package \pkg{rrcov}}
 \encoding{UTF-8}
 
+\section{CHANGES in rrcov VERSION 1.6-1 (2022-01-21)}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item Data set Fruit added: fruit.rda
+      \item URLs in Rd files replaced by DOIs to fix for the migration of the www.jstatsoft.org to a new editorial system
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Fixed a problem when showing the percentage of explained variance in 
+        summary() of all PCA functions when k is chosen to be less than the number of variables in the 
+        input data matrix (k < p). The returned object contains now additionally 
+        the rank of the input matrix, the original eigenvalues (of all variables) 
+        and the original total variance, if available.
+    }
+  }
+}  
 \section{CHANGES in rrcov VERSION 1.6-0 (2021-08-27)}{
   \subsection{NEW FEATURES}{
     \itemize{
@@ -14,7 +31,7 @@
   }
   \subsection{BUG FIXES}{
     \itemize{
-      \item Fixed some URLs, particularly the reference to https.javasoft.org
+      \item Fixed some URLs, particularly the reference to javasoft.org
     }
   }
 }  

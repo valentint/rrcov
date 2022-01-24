@@ -1,6 +1,6 @@
 Package: rrcov
 Version: 1.6-1
-Date: 2021-09-15
+Date: 2022-01-21
 VersionNote: Released 1.6-0 on 2021-09-15 on CRAN
 Title: Scalable Robust Estimators with High Breakdown Point
 Authors@R: c(person("Valentin", "Todorov", role = c("aut", "cre"), email = "valentin.todorov@chello.at", comment=c(ORCID = "0000-0003-4215-0245")))
@@ -19,9 +19,10 @@ Imports: stats, stats4, mvtnorm, lattice, pcaPP
 Suggests: grid, MASS
 LazyLoad: yes
 License: GPL (>=3)
+URL: https://github.com/valentint/rrcov
 Repository: CRAN
 Packaged: 2020-08-06 21:57:03 UTC; Share
 NeedsCompilation: yes
 Author: Valentin Todorov [aut, cre] (<https://orcid.org/0000-0003-4215-0245>)
 Date/Publication: 2020-01-16 18:40:06 UTC
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2

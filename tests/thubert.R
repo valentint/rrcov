@@ -1,4 +1,4 @@
-dodata <- function(nrep=1, time=FALSE, short=FALSE, full=TRUE, method=c("hubert", "hubert.mcd", "locantore", "cov", "classic")){
+dodata <- function(nrep=1, time=FALSE, short=FALSE, full=TRUE, method=c("hubert", "hubert.mcd", "locantore", "cov", "classic", "grid", "proj")){
 ## Test the function PcaHubert() on the literature datasets:
 ##
 ## Call PcaHubert() for all regression datasets available in
@@ -23,6 +23,10 @@ dodata <- function(nrep=1, time=FALSE, short=FALSE, full=TRUE, method=c("hubert"
             pca <- PcaCov(x)
         else if(method == "classic")
             pca <- PcaClassic(x)
+        else if(method == "grid")
+            pca <- PcaGrid(x)
+        else if(method == "proj")
+            pca <- PcaProj(x)
         else
             stop("Undefined PCA method: ", method)
 
@@ -266,10 +270,13 @@ dodata(method="classic")
 dodata(method="hubert.mcd")
 dodata(method="hubert")
 
-##dodata(method="locantore")
-##dodata(method="cov")
+dodata(method="locantore")
+dodata(method="cov")
+dodata(method="grid")
+dodata(method="proj")
 
-## VT::14.11.2018 - commented out - on some platforms PcaHubert will hoose only 1 PC
+## VT::14.11.2018 - commented out - on some platforms PcaHubert will choose only 1 PC
 ##      and will show difference
 ##  test.case.1()
+
 test.case.2()

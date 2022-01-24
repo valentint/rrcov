@@ -34,10 +34,9 @@ create a vector a of flags, one for each observation, identifying the outliers.
     M. Hubert, P. J. Rousseeuw, K. Vanden Branden (2005), ROBPCA: a new 
     approach to robust principal components analysis, \emph{Technometrics}, \bold{47}, 64--79.   
     
-    Todorov V & Filzmoser P (2009),
-    An Object Oriented Framework for Robust Multivariate Analysis.
-    \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-    URL \url{https://www.jstatsoft.org/article/view/v032i03}.    
+  Todorov V & Filzmoser P (2009), An Object Oriented Framework for Robust Multivariate Analysis. 
+  \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
+  \doi{10.18637/jss.v032.i03}.
 }
 \author{Valentin Todorov \email{valentin.todorov@chello.at}}
 \examples{

@@ -111,6 +111,8 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, skew=FALSE,
     if(Xsvd$rank == 0)
         stop("All data points collapse!")
 
+    myrank <- Xsvd$rank
+
     ## VT::27.08.2010: introduce 'scale' parameter; return the scale in the value object
     ##
     myscale = if(is.logical(scale) && !scale) vector('numeric', p) + 1 else  Xsvd$scale
@@ -197,6 +199,16 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, skew=FALSE,
         rank <- ncol(X)     ## The covariance matrix is not singular
         ev <- X.mcd.svd$d
 
+        if(trace)
+            cat("\nEigenvalues of S0: ", ev, "\nTotal variance: ", sum(ev),
+                "\nExplained variance: ", cumsum(ev)/sum(ev), "\n")
+
+        ## VT::08.10.2021 - fix the explained variance in case when k < p.
+        ##  these will be shown in summary()
+        eig0 <- ev
+        totvar0 <- sum(ev)
+        Hsubsets0 <- c()
+
         ## VT::11.28.2015: Choose the number of components k (if not specified)
         ##
         ## Use the test l_k/l_1 >= 10.E-3, i.e. the ratio of
@@ -247,12 +259,15 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, skew=FALSE,
                             eigenvalues=eigenvalues,
                             center=center,
                             scale=myscale,
+                            rank=myrank,
                             scores=scores,
                             k=k,
                             quan=X.mcd@quan,
                             alpha=alpha,
                             skew=FALSE,
                             ao=NULL,
+                            eig0=eig0,
+                            totvar0=totvar0,
                             n.obs=n)
     }
     else                                        # p > n or mcd=FALSE => apply the ROBPCA algorithm
@@ -275,11 +290,19 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, skew=FALSE,
 
         H0 <- order(outl)                       # index of the observations ordered by (increasing) outlyingness
         Xh <- X[H0[1:h],,drop=FALSE]            # the h data points with smallest outlyingness.
-                                                # VT::24.04.2020 Keep Xh as a mtrix, otherwise .classPC will not work.
+                                                # VT::24.04.2020 Keep Xh as a matrix (drop=FALSE), otherwise .classPC will not work.
         Xh.svd <- .classPC(Xh)
         kmax <- min(Xh.svd$rank, kmax)
-        if(trace)
-            cat("\nEigenvalues: ", Xh.svd$eigenvalues, "\n")
+        if(trace){
+            cat("\nEigenvalues of S0: ", Xh.svd$eigenvalues, "\nTotal variance: ", sum(Xh.svd$eigenvalues),
+                "\nExplained variance: ", cumsum(Xh.svd$eigenvalues)/sum(Xh.svd$eigenvalues), "\n")
+        }
+
+        ## VT::08.10.2021 - fix the explained variance in case when k < p.
+        ##  these will be shown in summary()
+        eig0 <- Xh.svd$eigenvalues
+        totvar0 <- sum(Xh.svd$eigenvalues)
+        Hsubsets0 <- H0[1:h]
 
         ##
         ## Find the number of PC 'k'
@@ -334,7 +357,7 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, skew=FALSE,
 
             if(trace)
             {
-                cat("\n.........: ", cutoffodh)
+                cat("\nCutoff for the orthogonal distances:\n.........: ", cutoffodh)
                 cat("\numcd.....: ", .crit.od(odh, method="umcd", quan=h), "\n")
                 cat("\nmedmad...: ", .crit.od(odh), "\n")
                 cat("\nskewed...: ", .crit.od(odh, method="skewed"), "\n")
@@ -344,7 +367,7 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, skew=FALSE,
             Xh.svd <- .classPC(X[indexset,])
             k <- min(Xh.svd$rank, k)
             if(trace)
-                cat("\nPerform extra reweighting step (k != rank)", k)
+                cat("\nPerform extra reweighting step (k != rank)", k, "...Ready.")
         }
 
         ## Project the data points on the subspace spanned by the first k0 eigenvectors
@@ -359,7 +382,7 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, skew=FALSE,
         X2 <- as.matrix(X2[ ,1:k])
         rot <- as.matrix(rot[ ,1:k])
 
-        ##  VT::28.07.2020 -  - add adjusted fore skewed data mode
+        ##  VT::28.07.2020 -  - add adjusted for skewed data mode
         ##      3) Adjusted mode for skewed data: Instead of applying the reweighted
         ##      MCD estimator, we calculate the adjusted outlyingness in the
         ##      k-dimensional subspace V_1 and compute the mean and covariance
@@ -386,12 +409,15 @@ PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, skew=FALSE,
                             eigenvalues=eigenvalues,
                             center=center,
                             scale=myscale,
+                            rank=myrank,
                             scores=scores,
                             k=k,
                             quan=h,
                             alpha=alpha,
                             skew=skew,
                             ao=outproj$ao,
+                            eig0=eig0,
+                            totvar0=totvar0,
                             n.obs=n)
 
     }
@@ -674,6 +700,10 @@ projectMCD <- function(X2, ev, k, alpha, h, niter=100, rot, center, scale, trace
     eigenvalues <- ee$values
     loadings <- rot %*% P6
     scores <- (X2 - matrix(rep(X2center, times=n), nrow=n, byrow=TRUE)) %*% P6
+    if(trace){
+        cat("\nEigenvalues of X2:\n")
+        print(eigenvalues)
+    }
 
     list(eigenvalues=eigenvalues, loadings=loadings, scores=scores, center=center)
 }

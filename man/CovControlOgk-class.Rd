@@ -47,14 +47,11 @@ or by calling the constructor-function \code{CovControlOgk}.
     object and will return the obtained \code{CovRobust} object}
 }}
 \references{
-  Todorov V & Filzmoser P (2009),
-  An Object Oriented Framework for Robust Multivariate Analysis.
+  Todorov V & Filzmoser P (2009), An Object Oriented Framework for Robust Multivariate Analysis. 
   \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-  URL \url{https://www.jstatsoft.org/article/view/v032i03}.
+  \doi{10.18637/jss.v032.i03}.
 }
-%\note{}
 \author{Valentin Todorov \email{valentin.todorov@chello.at}}
-%\seealso{}
 \examples{
     ## the following two statements are equivalent
     ctrl1 <- new("CovControlOgk", beta=0.95)

@@ -60,6 +60,8 @@ PcaClassic.default <- function(x, k=ncol(x), kmax=ncol(x),
         stop("All data points collapse!")
     }
 
+    myrank <- Xsvd$rank
+
     if(is.logical(scale) && !scale)         # no scaling, the defult
         Xsvd$scale <- vector('numeric', p) + 1
 
@@ -117,6 +119,8 @@ PcaClassic.default <- function(x, k=ncol(x), kmax=ncol(x),
     center      <- as.vector(Xsvd$center)
     scores      <- Xsvd$scores[, 1:k, drop=FALSE]
     scale       <- Xsvd$scale
+    eig0 <- as.vector(Xsvd$eigenvalues)
+    totvar0 <- sum(eig0)
 
     if(is.list(dimnames(data)) && !is.null(dimnames(data)[[1]]))
     {
@@ -130,13 +134,16 @@ PcaClassic.default <- function(x, k=ncol(x), kmax=ncol(x),
     ## fix up call to refer to the generic, but leave arg name as 'formula'
     cl[[1]] <- as.name("PcaClassic")
     res <- new("PcaClassic", call=cl,
+                            rank=myrank,
                             loadings=loadings,
                             eigenvalues=eigenvalues,
                             center=center,
                             scale=scale,
                             scores=scores,
                             k=k,
-                            n.obs=n)
+                            n.obs=n,
+                            eig0=eig0,
+                            totvar0=totvar0)
 
     ## Compute distances and flags
     res <- pca.distances(res, data, Xsvd$rank, crit.pca.distances)

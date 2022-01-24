@@ -101,17 +101,12 @@ CovMcd(x,
   Small Sample Corrections for LTS and MCD,
   \emph{Metrika}, \bold{55}, 111-123.
 
-  Todorov V & Filzmoser P (2009),
-  An Object Oriented Framework for Robust Multivariate Analysis.
+  Todorov V & Filzmoser P (2009), An Object Oriented Framework for Robust Multivariate Analysis. 
   \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-  URL \url{https://www.jstatsoft.org/article/view/v032i03}.
+  \doi{10.18637/jss.v032.i03}.
 }
 \author{ Valentin Todorov \email{valentin.todorov@chello.at}
 }
-%\note{
-%    The function \code{\link[robustbase]{covMcd}()} on which \code{CovMcd} is based
-%    will be deprecated i.e. is going to be made obsolete in future versions.
-%}
 \seealso{
   \code{\link[MASS]{cov.rob}} from package \pkg{MASS}
 }

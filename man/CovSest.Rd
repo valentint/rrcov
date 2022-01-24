@@ -114,10 +114,9 @@
   R. A. Maronna, D. Martin and V. Yohai (2006). \emph{Robust Statistics: Theory and Methods}.
   Wiley, New York.
 
-  Todorov V & Filzmoser P (2009),
-  An Object Oriented Framework for Robust Multivariate Analysis.
+  Todorov V & Filzmoser P (2009), An Object Oriented Framework for Robust Multivariate Analysis. 
   \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-  URL \url{https://www.jstatsoft.org/article/view/v032i03}.
+  \doi{10.18637/jss.v032.i03}.
 }
 \author{ Valentin Todorov \email{valentin.todorov@chello.at},
 Matias Salibian-Barrera \email{matias@stat.ubc.ca} and

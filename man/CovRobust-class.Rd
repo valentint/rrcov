@@ -39,14 +39,11 @@ The derived classes can override these methods and can define new ones.}
 }
 }
 \references{
-  Todorov V & Filzmoser P (2009),
-  An Object Oriented Framework for Robust Multivariate Analysis.
+  Todorov V & Filzmoser P (2009), An Object Oriented Framework for Robust Multivariate Analysis. 
   \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-  URL \url{https://www.jstatsoft.org/article/view/v032i03}.
+  \doi{10.18637/jss.v032.i03}.
 }
 \author{Valentin Todorov \email{valentin.todorov@chello.at}}
-%\note{}
-
 \seealso{
   \code{\link{Cov-class}}, \code{\link{CovMcd-class}}, \code{\link{CovMest-class}}, \code{\link{CovOgk-class}}
 }

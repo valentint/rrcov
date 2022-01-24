@@ -24,12 +24,26 @@ setMethod("show", "Pca", function(object) myPcaPrint(object))
 setMethod("summary", "Pca", function(object, ...){
     vars <- getEigenvalues(object)
     vars <- vars/sum(vars)
-    importance <- rbind("Standard deviation" = getSdev(object),
-                        "Proportion of Variance" = round(vars,5),
-                        "Cumulative Proportion" = round(cumsum(vars), 5))
+
+    ## If k < p, use the stored initial eigenvalues and total explained variance, if any
+    if(length(vars) < object@rank)
+    {
+        if(length(object@eig0) > 0 && length(object@totvar0) > 0)
+        {
+            vars <- object$eig0/object$totvar0
+            vars <- vars[1:object$k]
+        } else
+            vars <- NULL
+    }
+    importance <- if(is.null(vars)) rbind("Standard deviation" = getSdev(object))
+                  else              rbind("Standard deviation" = getSdev(object),
+                                         "Proportion of Variance" = round(vars,5),
+                                         "Cumulative Proportion" = round(cumsum(vars), 5))
+
     colnames(importance) <- colnames(getLoadings(object))
     new("SummaryPca", pcaobj=object, importance=importance)
 })
+
 setMethod("show", "SummaryPca", function(object){
 
     cat("\nCall:\n")
@@ -39,6 +53,12 @@ setMethod("show", "SummaryPca", function(object){
 
     cat("Importance of components:\n")
     print(object@importance, digits = digits)
+
+    if(nrow(object@importance) == 1)
+        cat("\nNOTE: Proportion of Variance and Cumulative Proportion are not shown",
+            "\nbecause the chosen number of components k =", object@pcaobj@k,
+            "\nis smaller than the rank of the data matrix =", object@pcaobj@rank, "\n")
+
     invisible(object)
 })
 

@@ -52,7 +52,7 @@ PcaCov(x, ...)
     of \code{x}. The value is passed to the underlying function and the result 
     returned is stored in the scale slot. Default is \code{scale=FALSE}.}
     \item{signflip}{a logical value indicating wheather to try to solve the sign indeterminancy of the loadings -   
-  ad hoc approach setting the maximum element in a singular vector to be positive. Default is \code{signflip = FALSE}}
+  ad hoc approach setting the maximum element in a singular vector to be positive. Default is \code{signflip = TRUE}}
   
   \item{crit.pca.distances}{criterion to use for computing the cutoff values for the orthogonal and score distances. Default is 0.975.}
   \item{trace}{whether to print intermediate results. Default is \code{trace = FALSE}}
@@ -66,10 +66,9 @@ is a generic function with "formula" and "default" methods. For details see the 
   virtual class \code{\link{PcaRobust-class}}. 
 }
 \references{
-  Todorov V & Filzmoser P (2009),
-  An Object Oriented Framework for Robust Multivariate Analysis.
+  Todorov V & Filzmoser P (2009), An Object Oriented Framework for Robust Multivariate Analysis. 
   \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-  URL \url{https://www.jstatsoft.org/article/view/v032i03}.
+  \doi{10.18637/jss.v032.i03}.
 }
 \author{ Valentin Todorov \email{valentin.todorov@chello.at} 
 }

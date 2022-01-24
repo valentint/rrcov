@@ -56,7 +56,8 @@ PcaGrid.default <- function(x, k=0, kmax=ncol(x),
     ##
     ## verify and set the input parameters: k and kmax
     ##
-    kmax <- max(min(floor(kmax), rankMM(x)),1)
+    myrank <- rankMM(data)
+    kmax <- max(min(floor(kmax), myrank),1)
     if(trace)
         cat("k=", k, ", kmax=", kmax, ".\n", sep="")
 
@@ -80,7 +81,7 @@ PcaGrid.default <- function(x, k=0, kmax=ncol(x),
     {
         scale <- if(scale) sd else  NULL
     }
-    out <- PCAgrid(x, k, scale=scale, trace=-1, ...)
+    out <- PCAgrid(data, k, scale=scale, trace=-1, ...)
 
     scores <- predict(out)
     center   <- out$center
@@ -100,6 +101,7 @@ PcaGrid.default <- function(x, k=0, kmax=ncol(x),
     ## fix up call to refer to the generic, but leave arg name as `formula'
     cl[[1]] <- as.name("PcaGrid")
     res <- new("PcaGrid", call=cl,
+                            rank=myrank,
                             loadings=loadings,
                             eigenvalues=eigenvalues,
                             center=center,
@@ -109,6 +111,6 @@ PcaGrid.default <- function(x, k=0, kmax=ncol(x),
                             n.obs=n)
 
     ## Compute distances and flags
-    res <- pca.distances(res, x, p, crit.pca.distances)
+    res <- pca.distances(res, data, p, crit.pca.distances)
     return(res)
 }

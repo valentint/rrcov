@@ -2,7 +2,8 @@
 ##  VT::03.08.2019
 ##
 ##
-##  roxygen2::roxygenise("C:/projects/statproj/R/rrcov", clean=TRUE)
+##  roxygen2::roxygenise("c:/Users/valen/OneDrive/MyRepo/R/rrcov", load_code=roxygen2:::load_installed, clean=TRUE)
+##  roxygen2::roxygenise("c:/projects/statproj/R/rrcov", load_code=roxygen2:::load_installed, clean=TRUE)
 ##
 #'
 #'
@@ -129,6 +130,49 @@ NULL
 #'  lda@cov
 #'
 #'  predict(lda)
+#'
+#' @keywords datasets
+NULL
+
+#'
+#' Fruit data set
+#'
+#' A data set that contains the spectra of six different cultivars of
+#' the same fruit (cantaloupe - \emph{Cucumis melo} L. Cantaloupensis
+#' group) obtained from Colin Greensill (Faculty of Engineering and Physical Systems, Central Queensland
+#' University, Rockhampton, Australia). The total data set contained 2818 spectra measured in 256 wavelengths.
+#' For illustrative purposes are considered only three cultivars out of it, named D, M and
+#' HA with sizes 490, 106 and 500, respectively. Thus the data set thus contains 1096 observations.
+#' For more details about this data set see the references below.
+#' @name fruit
+#' @docType data
+#' @usage data(fruit)
+#' @format A data frame with 1096 rows and 257 variables (one grouping variable -- \code{cultivar} -- and 256 measurement variables).
+#' @source
+#' Colin Greensill (Faculty of Engineering and Physical Systems, Central Queensland
+#' University, Rockhampton, Australia).
+#'
+#' @references
+#'  Hubert, M. and Van Driessen, K., (2004). Fast and robust discriminant analysis.
+#'  \emph{Computational Statistics and Data Analysis}, \bold{45}(2):301--320.
+#'  \doi{10.1016/S0167-9473(02)00299-2}.
+#'
+#'  Hubert, M, Rousseeuw, PJ, Van Aelst, S., (2008). High-breakdown robust multivariate methods.
+#'  \emph{Statistical science}, \bold{23}(1), pp. 92--119.
+#'  \doi{10.1214/088342307000000087}.
+#'
+#'  Vanden Branden, K and Hubert, M, (2005). Robust classification in high dimensions based on the SIMCA Method.
+#'  \emph{Chemometrics and Intelligent Laboratory Systems}, \bold{79}(1-2), pp. 10--21.
+#'  \doi{10.1016/j.chemolab.2005.03.002}.
+#'
+#'  Hubert, M, Rousseeuw, PJ and Verdonck, T, (2012). A Deterministic Algorithm for Robust Location and Scatter.
+#'  \emph{Journal of Computational and Graphical Statistics}, \bold{21}(3), pp 618--637.
+#'  \doi{10.1080/10618600.2012.672100}.
+#'
+#' @examples
+#'
+#'  data(fruit)
+#'  table(fruit$cultivar)
 #'
 #' @keywords datasets
 NULL

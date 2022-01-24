@@ -71,18 +71,18 @@ CovMrcd(x,
   virtual class \code{\link{CovRobust-class}}.
 }
 \references{
-  Kris Boudt, Peter Rousseeuw, Steven Vanduffel and Tim Verdonck (2018)
-  The Minimum Regularized Covariance Determinant estimator.
-  submitted, available at \url{https://arxiv.org/abs/1701.07086}.
+  Kris Boudt, Peter Rousseeuw, Steven Vanduffel and Tim Verdonck (2020)
+  The Minimum Regularized Covariance Determinant estimator,
+  \emph{Statistics and Computing}, \bold{30}, pp 113--128
+  \doi{10.1007/s11222-019-09869-x}.
 
   Mia Hubert, Peter Rousseeuw and Tim Verdonck (2012) A deterministic algorithm
   for robust location and scatter.
   \emph{Journal of Computational and Graphical Statistics} \bold{21}(3), 618--637.
 
-  Todorov V & Filzmoser P (2009),
-  An Object Oriented Framework for Robust Multivariate Analysis.
+  Todorov V & Filzmoser P (2009), An Object Oriented Framework for Robust Multivariate Analysis. 
   \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-  URL \url{https://www.jstatsoft.org/article/view/v032i03}.
+  \doi{10.18637/jss.v032.i03}.
 }
 \author{ 
 Kris Boudt, Peter Rousseeuw, Steven Vanduffel and Tim Verdonk. Improved by Joachim Schreurs and Iwein Vranckx.

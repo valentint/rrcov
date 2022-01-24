@@ -58,7 +58,8 @@ PcaCov.default <- function(x, k=ncol(x), kmax=ncol(x), cov.control = CovControlM
         stop("'PcaCov' can only be used with more units than variables")
 
     ## verify and set the input parameters: k and kmax
-    kmax <- max(min(floor(kmax), rankMM(x)),1)
+    myrank <- rankMM(x)
+    kmax <- max(min(floor(kmax), myrank),1)
     if((k <- floor(k)) < 0)
         k <- 0
     else if(k > kmax) {
@@ -85,8 +86,8 @@ PcaCov.default <- function(x, k=ncol(x), kmax=ncol(x), cov.control = CovControlM
     covx <- if(!is.null(cov.control)) restimate(cov.control, data) else Cov(data)
     covmat <- list(cov=getCov(covx), center=getCenter(covx), n.obs=covx@n.obs)
 
-    ## VT::05.06.2016  -the call to princomp() replaced by an internal function
-    ##  it will habdle the case scale=TRUE and will return also the proper scores
+    ## VT::05.06.2016  - the call to princomp() replaced by an internal function
+    ##  it will handle the case scale=TRUE and will return also the proper scores
     out <- .xpc(x, covmat=covmat, scale=scale, signflip=signflip)
 
 ## VT::11.28.2015: Choose the number of components k (if not specified)
@@ -125,6 +126,8 @@ PcaCov.default <- function(x, k=ncol(x), kmax=ncol(x), cov.control = CovControlM
     loadings <- out$loadings[, 1:k, drop=FALSE]
     eigenvalues  <- (sdev^2)[1:k]
     scores   <- out$scores[, 1:k, drop=FALSE]
+    eig0 <- sdev^2
+    totvar0 <- sum(eig0)
 
 ######################################################################
     names(eigenvalues) <- NULL
@@ -139,13 +142,16 @@ PcaCov.default <- function(x, k=ncol(x), kmax=ncol(x), cov.control = CovControlM
     ## fix up call to refer to the generic, but leave arg name as 'formula'
     cl[[1]] <- as.name("PcaCov")
     res <- new("PcaCov", call=cl,
+                            rank=myrank,
                             loadings=loadings,
                             eigenvalues=eigenvalues,
                             center=center,
                             scale=scale,
                             scores=scores,
                             k=k,
-                            n.obs=n)
+                            n.obs=n,
+                            eig0=eig0,
+                            totvar0=totvar0)
 
     ## Compute distances and flags
     res <- pca.distances(res, x, p, crit.pca.distances)

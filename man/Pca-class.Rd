@@ -28,6 +28,7 @@ Component Analisys methods
     \item{\code{call}:}{Object of class \code{"language"} }
     \item{\code{center}:}{Object of class \code{"vector"} the center of the data }
     \item{\code{scale}:}{Object of class \code{"vector"} the scaling applied to each variable of the data }
+    \item{\code{rank}:}{Object of class \code{"numeric"} the rank of the data matrix }
     \item{\code{loadings}:}{Object of class \code{"matrix"} the matrix 
     of variable loadings (i.e., a matrix whose columns contain the eigenvectors) }
     \item{\code{eigenvalues}:}{Object of class \code{"vector"} the eigenvalues }
@@ -47,6 +48,8 @@ Component Analisys methods
     The regular observations receive a flag 1 }
     \item{crit.pca.distances}{criterion to use for computing the cutoff values for the orthogonal and score distances. Default is 0.975.}
     \item{\code{n.obs}:}{Object of class \code{"numeric"} the number of observations }
+    \item{\code{eig0}:}{Object of class \code{"vector"} all eigenvalues }
+    \item{\code{totvar0}:}{Object of class \code{"numeric"} the total variance explained (\code{=sum(eig0)}) }
   }
 }
 \section{Methods}{
@@ -86,10 +89,9 @@ Component Analisys methods
   }
 }
 \references{
-  Todorov V & Filzmoser P (2009),
-  An Object Oriented Framework for Robust Multivariate Analysis.
+  Todorov V & Filzmoser P (2009), An Object Oriented Framework for Robust Multivariate Analysis. 
   \emph{Journal of Statistical Software}, \bold{32}(3), 1--47.
-  URL \url{https://www.jstatsoft.org/article/view/v032i03}.
+  \doi{10.18637/jss.v032.i03}.
 }
 \author{ Valentin Todorov \email{valentin.todorov@chello.at} }
 \seealso{
