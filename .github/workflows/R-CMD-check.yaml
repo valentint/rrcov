@@ -43,4 +43,11 @@ jobs:
         with:
           extra-packages: rcmdcheck
 
-      - uses: r-lib/actions/check-r-package@v1
+      - name: Check
+        env: 
+          NOT_CRAN: true
+        continue-on-error: true
+        run: rcmdcheck::rcmdcheck(build_args = c("--no-build-vignettes"), args = c("--no-manual"), error_on = "error")
+        shell: Rscript {0}
+        
+  
