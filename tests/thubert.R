@@ -1,8 +1,11 @@
-dodata <- function(nrep=1, time=FALSE, short=FALSE, full=TRUE, method=c("hubert", "hubert.mcd", "locantore", "cov", "classic", "grid", "proj")){
-## Test the function PcaHubert() on the literature datasets:
+dodata <- function(nrep=1, time=FALSE, short=FALSE, full=TRUE,
+    method=c("hubert", "hubert.mcd", "locantore", "cov", "classic",
+             "grid", "proj"))
+{
+## Test the PcaXxx() functions on the literature datasets:
 ##
-## Call PcaHubert() for all regression datasets available in
-##  robustbase/rrcov and print:
+## Call PcaHubert() and the other functions for all regression
+##  data sets available in robustbase/rrcov and print:
 ##  - execution time (if time == TRUE)
 ##  - loadings
 ##  - eigenvalues
@@ -181,7 +184,7 @@ pad.right <- function(z, pads)
     paste(z, padding, sep = "")
 }
 
-whatis<-function(x){
+whatis <- function(x){
     if(is.data.frame(x))
         cat("Type: data.frame\n")
     else if(is.matrix(x))
@@ -273,7 +276,10 @@ dodata(method="hubert")
 dodata(method="locantore")
 dodata(method="cov")
 dodata(method="grid")
+
+## IGNORE_RDIFF_BEGIN
 dodata(method="proj")
+## IGNORE_RDIFF_END
 
 ## VT::14.11.2018 - commented out - on some platforms PcaHubert will choose only 1 PC
 ##      and will show difference

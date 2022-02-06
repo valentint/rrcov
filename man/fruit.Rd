@@ -34,10 +34,6 @@ Hubert, M. and Van Driessen, K., (2004). Fast and robust discriminant analysis.
  \emph{Computational Statistics and Data Analysis}, \bold{45}(2):301--320.
  \doi{10.1016/S0167-9473(02)00299-2}.
 
- Hubert, M, Rousseeuw, PJ, Van Aelst, S., (2008). High-breakdown robust multivariate methods.
- \emph{Statistical science}, \bold{23}(1), pp. 92--119.
- \doi{10.1214/088342307000000087}.
-
  Vanden Branden, K and Hubert, M, (2005). Robust classification in high dimensions based on the SIMCA Method.
  \emph{Chemometrics and Intelligent Laboratory Systems}, \bold{79}(1-2), pp. 10--21.
  \doi{10.1016/j.chemolab.2005.03.002}.

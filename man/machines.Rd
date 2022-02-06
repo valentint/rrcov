@@ -66,8 +66,7 @@ Phillip Ein-Dor and Jacob Feldmesser (1987), Attributes of the performance
      of central processing units: A relative performance prediction model,
      \emph{Communications of the ACM}, \bold{30}, 4, pp 308-317.
 
- Kibler, D., Aha, D.W. and Albert, M. (1989).  Instance-based prediction
-     of real-valued attributes.  \emph{Computational Intelligence}, Vo.l 5,
-     51-57.
+   M. Hubert, P. J. Rousseeuw and T. Verdonck (2009), Robust PCA for skewed data and
+   its outlier map, \emph{Computational Statistics & Data Analysis}, \bold{53}, 2264--2274.
 }
 \keyword{datasets}

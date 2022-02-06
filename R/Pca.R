@@ -68,7 +68,7 @@ setMethod("predict",   "Pca", function(object, ...){
     predict(getPrcomp(object), ...)
 })
 setMethod("screeplot", "Pca", function(x, ...){
-    screeplot(getPrcomp(x), ...)
+    pca.screeplot(x, ...)
 })
 
 setMethod("biplot",    "Pca", function(x, choices=1L:2L, scale=1, ...){
@@ -414,6 +414,29 @@ kernelEVD <- function(x, scale=FALSE, signflip=TRUE){
     }
 }
 
+pca.screeplot <- function (obj, k, type = c("barplot", "lines"), main = deparse1(substitute(obj)), ...)
+{
+    type <- match.arg(type)
+    pcs <- if(is.null(obj@eig0) || length(obj@eig0) == 0) obj@eigenvalues else obj@eig0
+    k <- if(missing(k)) min(10, length(pcs))
+         else           min(k, length(pcs))
+
+    xp <- seq_len(k)
+
+    dev.hold()
+    on.exit(dev.flush())
+    if (type == "barplot")
+        barplot(pcs[xp], names.arg = names(pcs[xp]), main = main,
+            ylab = "Variances", ...)
+    else {
+        plot(xp, pcs[xp], type = "b", axes = FALSE, main = main,
+            xlab = "", ylab = "Variances", ...)
+        axis(2)
+        axis(1, at = xp, labels = names(pcs[xp]))
+    }
+    invisible()
+}
+
 ## Score plot of the Pca object 'obj' - scatterplot of ith against jth score
 ##  with superimposed tollerance (0.975) ellipse
 pca.scoreplot <- function(obj, i=1, j=2, main, id.n=0, ...)
@@ -424,6 +447,7 @@ pca.scoreplot <- function(obj, i=1, j=2, main, id.n=0, ...)
     }
 
     x <- cbind(getScores(obj)[,i], getScores(obj)[,j])
+    rownames(x) <- rownames(getScores(obj))
 
 ## VT::11.06.2012
 ##  Here we assumed that the scores are not correlated and

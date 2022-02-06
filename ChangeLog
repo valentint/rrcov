@@ -1,13 +1,26 @@
-2022-01-21  Valentin Todorov  <valentin.todorov@chello.at>
+2022-02-06  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.6-2
+    *
+    * tests/thubert.R - minor differences in tests for PcaProj() on some platforms fixed
+    * Examples for PCA/adjustment for skewed data and PCA/percentage of explained 
+    *   variance added
+    * R/Pca.R: scoreplot() corrected to show the labels of the samples
+    *
+
+2022-01-28  Valentin Todorov  <valentin.todorov@chello.at>
     *
     * DESCRIPTION (Version): 1.6-1
     *
-    * data/fruit.rda - data sets added
-    * man/*.Rd - URLs replaced by DOI to fix for the migration of the www.jstatsoft.org to a new editorial system
-    * R/pca*.R - fixed a problem when showing the percentage of explained variance in 
-    *   summary() of all PCA functions when k is chosen to be less than the number of variables in the 
-    *   input data matrix (k < p). The returned object contains now additionally 
-    *   the rank of the input matrix, the original eigenvalues (of all variables) 
+    * data/fruit.rda - data set added
+    *
+    * man/*.Rd - URLs replaced by DOI to fix for the migration of the www.jstatsoft.org
+    *   to a new editorial system (see mail from Achim Zeileis from 06.10.2021)
+    *
+    * R/Pca*.R - fixed a problem when showing the percentage of explained variance in
+    *   summary() of all PCA functions when k is chosen to be less than the number of variables in the
+    *   input data matrix (k < p). The returned object contains now additionally
+    *   the rank of the input matrix, the original eigenvalues (of all variables)
     *   and the original total variance, if available.
 
 2021-09-15  Valentin Todorov  <valentin.todorov@chello.at>

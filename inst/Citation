@@ -1,6 +1,7 @@
 citHeader("To cite rrcov in publications use:")
 
-citEntry(entry = "Article",
+citEntry(
+entry = "Article",
   title        = "An Object-Oriented Framework for Robust Multivariate Analysis",
   author       = personList(as.person("Valentin Todorov"),
                    as.person("Peter Filzmoser")),
@@ -9,13 +10,12 @@ citEntry(entry = "Article",
   volume       = "32",
   number       = "3",
   pages        = "1--47",
-  url          = "https://www.jstatsoft.org/article/view/v032i03",
-
+  doi          = "10.18637/jss.v032.i03",
   textVersion  =
-  paste("Valentin Todorov, Peter Filzmoser (2009).",
-        "An Object-Oriented Framework for Robust Multivariate Analysis.",
-        "Journal of Statistical Software, 32(3), 1-47.",
-        "URL https://www.jstatsoft.org/article/view/v032i03.")
+    paste("Valentin Todorov, Peter Filzmoser (2009).",
+          "An Object-Oriented Framework for Robust Multivariate Analysis.",
+          "Journal of Statistical Software, 32(3), 1-47.",
+          "DOI:  10.18637/jss.v032.i03.")
 )
 
 

@@ -382,6 +382,8 @@ myscreeplot <- function(rcov, ccov) {
         ylim <- y1
 
     plot(x, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, sub=sub, ...)
+    text(x, labels = row.names(x), ...)
+
     box()
     if(id.n > 0) {
         xrange <- par("usr")

@@ -5,10 +5,10 @@ importFrom("methods", "slot", "slotNames")
 importFrom("methods", "is", "new")
 importFrom(lattice, xyplot, panel.xyplot, panel.abline, ltext)
 importFrom(mvtnorm, rmvnorm)
-importFrom("grDevices", "dev.interactive", "palette")
+importFrom("grDevices", "dev.interactive", "palette", "dev.flush", "dev.hold")
 importFrom("graphics", "abline", "arrows", "axis", "box", "hist",
          "legend", "lines", "pairs", "par", "points", "rect",
-         "strwidth", "text", "title")
+         "strwidth", "text", "title", "barplot")
 importFrom("stats", ".getXlevels", "cor", "cov", "cov.wt", "cov2cor", "IQR",
          "dchisq", "density", "dnorm", "ecdf", "mad", "mahalanobis",
          "median", "model.matrix", "model.response", "na.fail",

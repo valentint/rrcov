@@ -41,9 +41,9 @@
 #'      of central processing units: A relative performance prediction model,
 #'      \emph{Communications of the ACM}, \bold{30}, 4, pp 308-317.
 #'
-#'  Kibler, D., Aha, D.W. and Albert, M. (1989).  Instance-based prediction
-#'      of real-valued attributes.  \emph{Computational Intelligence}, Vo.l 5,
-#'      51-57.
+#'    M. Hubert, P. J. Rousseeuw and T. Verdonck (2009), Robust PCA for skewed data and
+#'    its outlier map, \emph{Computational Statistics & Data Analysis}, \bold{53}, 2264--2274.
+#'
 #'
 #' @examples
 #'
@@ -156,10 +156,6 @@ NULL
 #'  Hubert, M. and Van Driessen, K., (2004). Fast and robust discriminant analysis.
 #'  \emph{Computational Statistics and Data Analysis}, \bold{45}(2):301--320.
 #'  \doi{10.1016/S0167-9473(02)00299-2}.
-#'
-#'  Hubert, M, Rousseeuw, PJ, Van Aelst, S., (2008). High-breakdown robust multivariate methods.
-#'  \emph{Statistical science}, \bold{23}(1), pp. 92--119.
-#'  \doi{10.1214/088342307000000087}.
 #'
 #'  Vanden Branden, K and Hubert, M, (2005). Robust classification in high dimensions based on the SIMCA Method.
 #'  \emph{Chemometrics and Intelligent Laboratory Systems}, \bold{79}(1-2), pp. 10--21.

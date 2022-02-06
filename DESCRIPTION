@@ -1,7 +1,6 @@
 Package: rrcov
-Version: 1.6-1
-Date: 2022-01-21
-VersionNote: Released 1.6-0 on 2021-09-15 on CRAN
+Version: 1.6-2
+VersionNote: Released 1.6-1 on 2022-01-28 on CRAN
 Title: Scalable Robust Estimators with High Breakdown Point
 Authors@R: c(person("Valentin", "Todorov", role = c("aut", "cre"), email = "valentin.todorov@chello.at", comment=c(ORCID = "0000-0003-4215-0245")))
 Description: Robust Location and Scatter Estimation and Robust
@@ -20,6 +19,7 @@ Suggests: grid, MASS
 LazyLoad: yes
 License: GPL (>=3)
 URL: https://github.com/valentint/rrcov
+BugReports: https://github.com/valentint/rrcov/issues
 Repository: CRAN
 Packaged: 2020-08-06 21:57:03 UTC; Share
 NeedsCompilation: yes

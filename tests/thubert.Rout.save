@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2021-04-28 r80240) -- "Unsuffered Consequences"
+R Under development (unstable) (2021-10-11 r81035) -- "Unsuffered Consequences"
 Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 
@@ -15,11 +15,14 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> dodata <- function(nrep=1, time=FALSE, short=FALSE, full=TRUE, method=c("hubert", "hubert.mcd", "locantore", "cov", "classic", "grid", "proj")){
-+ ## Test the function PcaHubert() on the literature datasets:
+> dodata <- function(nrep=1, time=FALSE, short=FALSE, full=TRUE,
++     method=c("hubert", "hubert.mcd", "locantore", "cov", "classic",
++              "grid", "proj"))
++ {
++ ## Test the PcaXxx() functions on the literature datasets:
 + ##
-+ ## Call PcaHubert() for all regression datasets available in
-+ ##  robustbase/rrcov and print:
++ ## Call PcaHubert() and the other functions for all regression
++ ##  data sets available in robustbase/rrcov and print:
 + ##  - execution time (if time == TRUE)
 + ##  - loadings
 + ##  - eigenvalues
@@ -198,7 +201,7 @@ Type 'q()' to quit R.
 +     paste(z, padding, sep = "")
 + }
 > 
-> whatis<-function(x){
+> whatis <- function(x){
 +     if(is.data.frame(x))
 +         cat("Type: data.frame\n")
 +     else if(is.matrix(x))
@@ -3189,6 +3192,8 @@ Standard deviations:
 [1] 195.5316  39.7596  11.7329   7.3743   1.7656
 ----------------------------------------------------------
 ==========================================================
+> 
+> ## IGNORE_RDIFF_BEGIN
 > dodata(method="proj")
 
 Call:  dodata(method = "proj") 
@@ -3688,6 +3693,7 @@ Standard deviations:
 [1] 193.5806  41.7449  16.7665   8.1585   1.6074
 ----------------------------------------------------------
 ==========================================================
+> ## IGNORE_RDIFF_END
 > 
 > ## VT::14.11.2018 - commented out - on some platforms PcaHubert will choose only 1 PC
 > ##      and will show difference
@@ -3707,4 +3713,4 @@ Standard deviations:
 > 
 > proc.time()
    user  system elapsed 
-   1.54    0.25    1.76 
+   3.23    0.68    4.00 

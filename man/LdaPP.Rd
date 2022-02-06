@@ -114,6 +114,8 @@ gpch <- ifelse(grp == "Attic", 16, 1)
 ##
 plot(CA~MG, data=pottery, col=gcol, pch=gpch)
 
+\dontrun{
+
 ppc <- LdaPP(x, grp, method="class", optim=TRUE)
 lda.line(ppc, col=1, lwd=2, lty=1)
 
@@ -142,6 +144,8 @@ LdaPP(origin~., data=pottery)           ## use all predictor variables
 data(pottery)
 fit <- LdaPP(origin~., data = pottery)
 predict(fit)
+}
+
 }
 \keyword{robust}
 \keyword{multivariate}
