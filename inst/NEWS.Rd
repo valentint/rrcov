@@ -4,7 +4,7 @@
 \title{News for \R Package \pkg{rrcov}}
 \encoding{UTF-8}
 
-\section{CHANGES in rrcov VERSION 1.6-2 (2022-02-01)}{
+\section{CHANGES in rrcov VERSION 1.6-2 (2022-02-08)}{
   \subsection{NEW FEATURES}{
     \itemize{
       \item Examples for PCA/adjustment for skewed data and PCA/percentage of explained 

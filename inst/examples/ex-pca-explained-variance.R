@@ -51,7 +51,8 @@ summary(PcaProj(hbk, k=2))
 
 ## Example with the newly added to 'rrcov' data set fruit ========
 data(fruit)
-(pca <- PcaHubert(fruit[,-1], trace=TRUE))     # remove the first variable, the grouping one
+# Remove the first variable, the grouping one
+(pca <- PcaHubert(fruit[,-1], trace=TRUE))
 summary(pca)
 
 screeplot(pca)

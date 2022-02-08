@@ -1,11 +1,11 @@
-2022-02-06  Valentin Todorov  <valentin.todorov@chello.at>
+2022-02-08  Valentin Todorov  <valentin.todorov@chello.at>
     *
     * DESCRIPTION (Version): 1.6-2
     *
     * tests/thubert.R - minor differences in tests for PcaProj() on some platforms fixed
-    * Examples for PCA/adjustment for skewed data and PCA/percentage of explained 
+    * Examples for PCA/adjustment for skewed data and PCA/percentage of explained
     *   variance added
-    * R/Pca.R: scoreplot() corrected to show the labels of the samples
+    * R/Pca.R: scorePlot() improved to show the labels of the samples
     *
 
 2022-01-28  Valentin Todorov  <valentin.todorov@chello.at>

@@ -314,7 +314,7 @@ myscreeplot <- function(rcov, ccov) {
 ##  The differences to tolEllipsePlot() in robustbase are:
 ##  - customizable (titles, limits, labels, etc)
 ##  - can take either a Cov object or a list (aka cov.wt or covMcd)
-##
+##  -
 .myellipse <- function (x, xcov,
     cutoff = NULL,
     id.n = NULL,
@@ -326,8 +326,9 @@ myscreeplot <- function(rcov, ccov) {
     sub="",
     txt.leg=c("robust", "classical"), col.leg = c("red", "blue"),
     lty.leg=c("solid", "dashed"),
-    xlim,
-    ylim, ...)
+    xlim, ylim,
+    off.x, off.y,
+    ...)
 {
     if (is.data.frame(x))
         x <- data.matrix(x)
@@ -371,8 +372,12 @@ myscreeplot <- function(rcov, ccov) {
     rd <- sqrt(mahalanobis(x, x.loc, x.cov, tol = tol))
     if (missing(cutoff) || is.null(cutoff))
         cutoff <- sqrt(qchisq(0.975, df = 2))
-    if (missing(id.n) || is.null(id.n))
+    if (missing(id.n) || is.null(id.n)) {
         id.n <- sum(rd > cutoff)
+        if(n <= 10)             # if less than 10 observations, show all
+            id.n <- n
+    }
+
     ind <- sort(rd, index.return = TRUE)$ix
     ind <- ind[(n - id.n + 1):n]
 
@@ -381,14 +386,25 @@ myscreeplot <- function(rcov, ccov) {
     if(missing(ylim))
         ylim <- y1
 
-    plot(x, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main, sub=sub, ...)
-    text(x, labels = row.names(x), ...)
+    plot(x, xlim = xlim, ylim = ylim, xlab = xlab, ylab = ylab, main = main,
+        sub=sub, ...)
 
     box()
     if(id.n > 0) {
-        xrange <- par("usr")
-        xrange <- xrange[2] - xrange[1]
-        text(x[ind, 1] + xrange/50, x[ind, 2], ind)
+        if(missing(off.x))
+        {
+            xrange <- par("usr")
+            xrange <- xrange[2] - xrange[1]
+            off.x <- xrange/50
+        }
+        if(missing(off.y))
+        {
+            xrange <- par("usr")
+            xrange <- xrange[4] - xrange[3]
+            off.y <- xrange/50
+        }
+        labels <- if(!is.null(rownames(x))) rownames(x)[ind] else ind
+        text(x[ind, 1] + off.x, x[ind, 2] + off.y, labels, ...)
     }
 
     points(z2, type = "l", lty = lty.leg[1], col = col.leg[1], ...)

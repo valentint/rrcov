@@ -41,7 +41,8 @@ PcaProj.formula <- function (formula, data = NULL, subset, na.action, ...)
 }
 
 PcaProj.default <- function(x, k=0, kmax=ncol(x),
-    scale=FALSE, na.action = na.fail, crit.pca.distances=0.975, trace=FALSE, ...)
+    scale=FALSE, na.action = na.fail, crit.pca.distances=0.975,
+    trace=FALSE, ...)
 {
 
     cl <- match.call()
@@ -61,7 +62,8 @@ PcaProj.default <- function(x, k=0, kmax=ncol(x),
     if((k <- floor(k)) < 0)
         k <- 0
     else if(k > kmax) {
-        warning(paste("The number of principal components k = ", k, " is larger then kmax = ", kmax, "; k is set to ", kmax,".", sep=""))
+        warning(paste("The number of principal components k = ", k,
+        " is larger then kmax = ", kmax, "; k is set to ", kmax,".", sep=""))
         k <- kmax
     }
     if(k != 0)
@@ -71,10 +73,8 @@ PcaProj.default <- function(x, k=0, kmax=ncol(x),
         if(trace)
             cat("The number of principal components is defined by the algorithm. It is set to ", k,".\n", sep="")
     }
-######################################################################
 
-    if(is.logical(scale))
-    {
+    if(is.logical(scale)) {
         scale <- if(scale) sd else  NULL
     }
     out <- PCAproj(data, k, scale=scale, ...)
@@ -88,7 +88,6 @@ PcaProj.default <- function(x, k=0, kmax=ncol(x),
 ##    scores <- predict(out)
 ##    scores   <- as.matrix(scores[, 1:k])
     scores <- (data - matrix(rep(center, nrow(data)), nrow = nrow(data), byrow = TRUE)) %*% loadings
-
     eigenvalues  <- (sdev^2)[1:k]
 
 ######################################################################
