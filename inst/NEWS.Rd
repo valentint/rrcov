@@ -4,6 +4,18 @@
 \title{News for \R Package \pkg{rrcov}}
 \encoding{UTF-8}
 
+\section{CHANGES in rrcov VERSION 1.7-0 (2022-04-25)}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item Fix for USE_FC_LEN_T becoming the default in 4.2.0
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Fortran warnings fixed in ds11.f and fsada.f
+    }
+  }
+}  
 \section{CHANGES in rrcov VERSION 1.6-2 (2022-02-08)}{
   \subsection{NEW FEATURES}{
     \itemize{

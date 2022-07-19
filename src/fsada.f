@@ -10,7 +10,7 @@ C...Default number of iterations to be performed(if NIT=0)
         DIMENSION X(NV,NE), IGRP(NE)
         DIMENSION XM(NV,NG), XC(NV,NV), XND(NG)
 
-        DIMENSION ave(NV,NG),cov(NV,NV), 
+        DIMENSION ave(NV,NG),cov(NV,NV),
      1 datimg(NV,NE),ustu(NE),ibasis(NE),
      3 isin(NE),wtv(NG),cinv(NV,NV),
      4 IDSAV(NE)
@@ -18,8 +18,8 @@ C...Default number of iterations to be performed(if NIT=0)
 C...Set the default number of iterations if not supplied
         IF(NIT.EQ.0) NIT=ITK0
 
-      if(ITRACE .ge. 2) then 
-        CALL INTPR('Entering FSADA - NIT: ',-1,NIT,1) 
+      if(ITRACE .ge. 2) then
+        CALL INTPR('Entering FSADA - NIT: ',-1,NIT,1)
       endif
 
 C...Set the coverage for max breakdown point, if not supplied
@@ -46,7 +46,7 @@ C...the cross-product matrix is returned - scale it
      3bescov,besave,beswtv,ibsbes,nsim,iseed,ITRACE)
 
       implicit doubleprecision (a-h,o-z)
-      dimension data(nord,ncas),ave(nord,npop),cov(nord,nord), 
+      dimension data(nord,ncas),ave(nord,npop),cov(nord,nord),
      1 datimg(nord,ncas),
      2 ustu(ncas),igp(ncas),ibasis(ncas),
      3 isin(ncas),wtv(npop),cinv(nord,nord),
@@ -62,15 +62,15 @@ C...the cross-product matrix is returned - scale it
 
 CCC     WRITE(*,*) ncas,' cases'
 c       ncover = cover * ncas + 0.5
-      if(ITRACE .ge. 2) then 
-        CALL INTPR('Entering READER - ncas: ',-1,ncas,1) 
-        CALL INTPR('Entering READER - ncover: ',-1,ncover,1) 
+      if(ITRACE .ge. 2) then
+        CALL INTPR('Entering READER - ncas: ',-1,ncas,1)
+        CALL INTPR('Entering READER - ncover: ',-1,ncover,1)
       endif
-      
+
         do j = 1, ncas
            index(j) = j
         enddo
-      
+
         do j = 1, npop
            wtv(j) = 0
            do i = 1, nord
@@ -135,9 +135,9 @@ CCC     1 f10.4)') log10(deter)
 CCC      WRITE(8,'(/'' Log10 determinant of overall covariance matrix'',
 CCC     1 f10.4)') log10(deter)
 
-      if(ITRACE .ge. 2) then 
+      if(ITRACE .ge. 2) then
         xdet = log10(deter)
-        CALL DBLEPR('Initialization ready - log det: ',-1,xdet,1) 
+        CALL DBLEPR('Initialization ready - log det: ',-1,xdet,1)
       endif
 
       verbes = 1.d30
@@ -150,7 +150,7 @@ CCC      WRITE(*,'(//'' Start search for high breakdown estimators''
 CCC     1 '' of coverage'',f7.3)') cover
 CCC      WRITE(8,'(//'' Start search for high breakdown estimators''
 CCC     1 '' of coverage'',f7.3)') cover
-      
+
       edf = ncover - npop
       corter = nord * log10(edf)
       nsol = 0
@@ -167,14 +167,14 @@ CCC     1 '' of coverage'',f7.3)') cover
            ibasis(i) = index(i)
         enddo
 
-      if(ITRACE .ge. 2) then 
-        CALL INTPR('Entering iteration: ',-1,loopo,1) 
+      if(ITRACE .ge. 2) then
+        CALL INTPR('Entering iteration: ',-1,loopo,1)
       endif
-      
+
         call itera(data,ave,cov,cinv,datimg,wtv,ustu,deter,
      1 igp,ibasis,isin,nord,ncas,npop,ncover)
         isgn = isigna(ibasis,ncover)
-      
+
         do i = 1, nsol
            if(isgn.eq.isgntb(i).and.abs(deter/detrtb(i)-one)
      1    .lt. .001) then
@@ -192,7 +192,7 @@ CCC     1 '' of coverage'',f7.3)') cover
            endif
         enddo
       enddo
-      
+
 CCC   WRITE(*,'(/''Loop'',i6,'' New feasible solution.  Retained '',
 CCC     1 ''cases''/(20i4))') loopo,(ibasis(i),i=1,ncover)
 CCC      detlog = log10(deter) - corter
@@ -206,7 +206,7 @@ CCC     WRITE(*,*) ' Covariance matrix'
 CCC     do j = 1, nord
 CCC             WRITE(*,'(t12,6g11.4)') (cov(i,j)/edf,i=1,nord)
 CCC     enddo
- 
+
         nsol = nsol + 1
         isgntb(nsol) = isgn
         detrtb(nsol) = deter
@@ -255,7 +255,7 @@ CCC      enddo
 
 CCC      WRITE(*,*) ' Covariance matrix'
 CCC      WRITE(8,'(/'' Covariance matrix'')')
-      
+
 CCC        do j = 1, nord
 CCC        WRITE(*,102) j,(bescov(i,j)/edf,i=1,nord)
 CCC        WRITE(8,102) j,(bescov(i,j)/edf,i=1,nord)
@@ -273,7 +273,7 @@ CCC        enddo
      3 upfac(100), dnfac(100),wtv(npop)
       data one /1.d0/, big /1.d10/
 
-C       Initialize to avoid warnings      
+C       Initialize to avoid warnings
         iout = 0
         icasot = 0
         jin = 0
@@ -347,7 +347,8 @@ c     Get images of cases
         do 40 i = 1, nord
            sum = 0
            do 45 k = 1, nord
-45            sum = sum + cinv(i,k) * (data(k,j) - ave(k,ngp))
+              sum = sum + cinv(i,k) * (data(k,j) - ave(k,ngp))
+45         continue
               datimg(i,j) = sum
               ustu(j) = ustu(j) + sum * (data(i,j) - ave(i,ngp))
 40      continue
@@ -380,7 +381,8 @@ c       (cannot beat what we have already)
 c
                  sum = 0
                  do 60 k = 1, nord
-60                  sum=sum+(data(k,icas)-ave(k,ngp))*datimg(k,j)
+                    sum=sum+(data(k,icas)-ave(k,ngp))*datimg(k,j)
+60               continue
                     factor=factor+(sum*upfac(jgp)*dnfac(ngp))**2
                     if(factor.lt.0) then
 CCC          WRITE(*,*) 'Impossible factor. dnfac,ustu(icas),firfac',
@@ -443,12 +445,13 @@ c
 			devi(i) = data(i,icasot) - ave(i,ngp)
 			ave(i,ngp) = ave(i,ngp) - devi(i) / wnew
 			devj(i) = data(i,jin) - ave(i,jgp)
-			do 70 j = 1, i
+			do 71 j = 1, i
 				cov(i,j) = cov(i,j) - devi(i) * devi(j) * rati
 				cov(j,i) = cov(i,j)
-				cinv(i,j) = cinv(i,j) + datimg(i,icasot) * 
+				cinv(i,j) = cinv(i,j) + datimg(i,icasot) *
      1				datimg(j,icasot) * fact
 				cinv(j,i) = cinv(i,j)
+ 71         continue
  70		continue
 		call verify1(cov,cinv,nord)
 c
@@ -464,14 +467,17 @@ c
 			sum = 0
 			do 81 j = 1, nord
 				cov(i,j) = cov(i,j) + rati * devj(i) * devj(j)
- 81				sum = sum + cinv(i,j) * devj(j)
+ 				sum = sum + cinv(i,j) * devj(j)
+ 81         continue
 			devi(i) = sum
 			sum2 = sum2 + devi(i) * devj(i)
  80		continue
 		factor = rati / (one + rati * sum2)
 		do 85 i = 1, nord
-			do 85 j = 1, nord
- 85				cinv(i,j) = cinv(i,j) - devi(i) * devi(j) * factor
+			do 86 j = 1, nord
+   				cinv(i,j) = cinv(i,j) - devi(i) * devi(j) * factor
+ 86         continue
+ 85     continue
 		call verify1(cov,cinv,nord)
       go to 30
 
@@ -487,7 +493,8 @@ c
       do 10 j = 1, nord
       sum = 0
       do 15 k = 1, nord
- 15   sum = sum + cov(i,k) * cinv(k,j)
+      sum = sum + cov(i,k) * cinv(k,j)
+ 15   continue
       if (i .eq. j) then
         biger = max(biger,abs(sum-one))
         else
@@ -539,4 +546,4 @@ CCC        WRITE(*,*) 'Inversion error, departure from I is',biger
 10    CONTINUE
       ISIGNA = ISIG1 * ISIG2
       RETURN
-      END 
+      END

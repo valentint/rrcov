@@ -2,6 +2,14 @@
     *
     * DESCRIPTION (Version): 1.6-2
     *
+    * src/covOPW.c - Fix for USE_FC_LEN_T becoming the default in 4.2.0
+    * src/ds11.f, fsada.f - fixed several Fortran warnings
+    *
+
+2022-04-25  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-0
+    *
     * tests/thubert.R - minor differences in tests for PcaProj() on some platforms fixed
     * Examples for PCA/adjustment for skewed data and PCA/percentage of explained
     *   variance added

@@ -1,24 +1,24 @@
       subroutine rlds(n,np,nresamp,x,tune,wk,locat,cov,maxres,
      1     nresper,w,z,icent,iwork)
-c 
+c
 c
 c  INPUT:  'n' = number  observations (integer);
 c         'np' = number of indepent  variables (integer);
-c    'nresamp' = mumber of  resamples required (integer), may not be reached 
-c                if too many of the subsamples of size 'np', chosen out of 
+c    'nresamp' = mumber of  resamples required (integer), may not be reached
+c                if too many of the subsamples of size 'np', chosen out of
 c                the observed vectors, are in a hyperplane;
-c                if nresamp=0, ALL subsamples are taken;  
+c                if nresamp=0, ALL subsamples are taken;
 c          'x' = real (n*np) matrix of observed values;
 c      'tune'  = tuning constant used in calculation of weights;
-c                by default should be equal to the square root of the 
-c                95-percentile of the chi-square distribution with 'np' 
+c                by default should be equal to the square root of the
+c                95-percentile of the chi-square distribution with 'np'
 c                 degrees of freedom (real).
 c       'seed' = seed for calculating random numbers (real);
 c         'wk' = real work vector of length (4*n+np).  On output,
 c                wk(1),..,wk(n) contain the weights assigned to
-c                each observation; 
-c     'maxres' = maximum nunber of  resamples to be performed (integer), 
-c                including those which are discarded due to linearly 
+c                each observation;
+c     'maxres' = maximum nunber of  resamples to be performed (integer),
+c                including those which are discarded due to linearly
 c                dependent subsamples.
 c        'icent'= if 0 the observations are centered with 0
 c
@@ -38,9 +38,9 @@ c
       nind=nr+n
       naux=nind+np
 
-C      CALL INTPR('ENTER rlds. nresamp=',-1,nresamp,1) 
-C      CALL INTPR('maxres=',-1,maxres,1) 
-C      CALL INTPR('icent=',-1,icent,1) 
+C      CALL INTPR('ENTER rlds. nresamp=',-1,nresamp,1)
+C      CALL INTPR('maxres=',-1,maxres,1)
+C      CALL INTPR('icent=',-1,icent,1)
 
       call rndstart()
       call rlweights(n,np,nresamp,x,tune,w,z,locat,wk(nr),iwork(nind),
@@ -50,7 +50,7 @@ C      CALL INTPR('icent=',-1,icent,1)
 
       call rndend()
       return
-      end 
+      end
 
 
       subroutine rlweights(n,np,nresamp,x,c,w,z,a,b,ind,wk,
@@ -59,7 +59,7 @@ C      CALL INTPR('icent=',-1,icent,1)
       dimension x(n,np),z(n),a(np),b(n),w(n),ind(np),u(n)
       dimension wk(np,np)
 
-C      CALL INTPR('ENTER rlweights',-1,0,0) 
+C      CALL INTPR('ENTER rlweights',-1,0,0)
 
       k1=(np-1)+(n+1)/2
       k2=(np-1)+(n+2)/2
@@ -72,7 +72,7 @@ C      CALL INTPR('ENTER rlweights',-1,0,0)
         do i=1,n
            z(i)=-1.
         enddo
-      
+
       nresper=0
       if(np.eq.1) then
          call rlprocess(n,np,nresper,x,a,b,w,z,ind,wk,u,k1,
@@ -88,14 +88,14 @@ C      CALL INTPR('ENTER rlweights',-1,0,0)
      +           k2,cc,icent)
           enddo
       endif
-      
-C      CALL DBLEPR('zi',-1,z,n) 
+
+C      CALL DBLEPR('zi',-1,z,n)
 
       do i=1,n
          call rlrwetml(z(i)/c,w(i))
       enddo
 
-C      CALL DBLEPR('EXIT rlweights: wi=',-1,w,n) 
+C      CALL DBLEPR('EXIT rlweights: wi=',-1,w,n)
       return
       end
 
@@ -132,7 +132,7 @@ C      CALL DBLEPR('EXIT rlweights: wi=',-1,w,n)
       dimension wk(np,np)
       data tola,tolr,big1,big2 /1.d-15, 1.d-8,1.d+2,1.d+15/
 
-C      CALL INTPR('ENTER rlprocess',-1,0,0) 
+C      CALL INTPR('ENTER rlprocess',-1,0,0)
 
       CALL RCHKUSR()
 
@@ -141,14 +141,14 @@ C      CALL INTPR('ENTER rlprocess',-1,0,0)
          call rlvectora(n,np,x,a,ind,wk,icent,ierr)
       endif
 
-C      CALL INTPR('IERR',-1,ierr,1) 
-C      CALL DBLEPR('A',-1,a,np) 
+C      CALL INTPR('IERR',-1,ierr,1)
+C      CALL DBLEPR('A',-1,a,np)
 
       if (ierr.eq.0) then
          nresper=nresper+1
 
-C       VT::19.07.2010         
-C       Handle the univariate case         
+C       VT::19.07.2010
+C       Handle the univariate case
          if(np.eq.1) then
             do i=1,n
                b(i)=x(i,1)
@@ -161,7 +161,7 @@ C       Handle the univariate case
                enddo
             enddo
          endif
-         
+
          bmed=0.0d0
          if(icent.ne.0) bmed=rlamed(b,n,u)
          do i=1,n
@@ -171,11 +171,11 @@ C       Handle the univariate case
          do i=1,n
             ww=ww+w(i)
          enddo
-         ww=ww/n         
+         ww=ww/n
          if(ww.ge.tola) then
             call rlsort(w,n,1)
             bmad=(w(k1)+w(k2))/2
-            bmad=bmad/cc 
+            bmad=bmad/cc
             if(bmad.ge.tolr *ww) then
                do i=1,n
                    aux=abs(b(i)-bmed)/bmad
@@ -260,52 +260,53 @@ c   10 call roblibrunif(RND)
       go to 10
       end
 
-                                                                 
+
       double precision function rlamed(z,n,aux)
       implicit double precision (a-h,o-z)
       DIMENSION Z(n),aux(n)
-      DO 100 I=1,N                                                  
-  100 AUX(I)=Z(I)                                                   
-      CALL rlSORT (AUX,N,1)                                           
-      I=N/2                                                         
-      K=I*2                                                         
-      rlamed=AUX(I+1)                                                 
-      IF (k.GE.N) rlamed=(rlamed+AUX(I))/2.                             
-      RETURN                                                        
+      DO 100 I=1,N
+      AUX(I)=Z(I)
+  100 CONTINUE
+      CALL rlSORT (AUX,N,1)
+      I=N/2
+      K=I*2
+      rlamed=AUX(I+1)
+      IF (k.GE.N) rlamed=(rlamed+AUX(I))/2.
+      RETURN
       END
 
-      SUBROUTINE RLSORT (A,N,SWITCH)                                   
+      SUBROUTINE RLSORT (A,N,SWITCH)
       implicit double precision (a-h,o-z)
-      DIMENSION A(n)                                               
-      INTEGER SWITCH                                                 
-      IF (N.LE.1) GO TO 999                                          
-      M=1                                                            
-106   M=M+M                                                          
-      IF(M.LE.N) GO TO 106                                           
-      M=M-1                                                          
-994    M=M/2                                                         
-      IF (M.EQ.0) GO TO 999                                          
-      KK=N-M                                                         
-      J=1                                                            
-992   I=J                                                            
-996   IM=I+M                                                         
-      IF(SWITCH) 810,810,800                                         
-800    IF (A(I).GT.A(IM)) GO TO 110                                 
-      GO TO 995                                                     
-810    IF(A(I).LT.A(IM)) GO TO 110                                  
-995   J=J+1                                                         
-      IF(J.GT.KK) GO TO 994                                         
-      GO TO 992                                                     
-110   TEMP=A(I)                                                     
-      A(I)=A(IM)                                                    
-      A(IM)=TEMP                                                    
-       I=I-M                                                        
-      IF (I.LT.1) GO TO 995                                         
-      GO TO 996                                                     
-999    RETURN                                                       
-      END           
+      DIMENSION A(n)
+      INTEGER SWITCH
+      IF (N.LE.1) GO TO 999
+      M=1
+106   M=M+M
+      IF(M.LE.N) GO TO 106
+      M=M-1
+994    M=M/2
+      IF (M.EQ.0) GO TO 999
+      KK=N-M
+      J=1
+992   I=J
+996   IM=I+M
+      IF(SWITCH) 810,810,800
+800    IF (A(I).GT.A(IM)) GO TO 110
+      GO TO 995
+810    IF(A(I).LT.A(IM)) GO TO 110
+995   J=J+1
+      IF(J.GT.KK) GO TO 994
+      GO TO 992
+110   TEMP=A(I)
+      A(I)=A(IM)
+      A(IM)=TEMP
+       I=I-M
+      IF (I.LT.1) GO TO 995
+      GO TO 996
+999    RETURN
+      END
 
-        
+
       double precision function rldprodd(x,y,nn)
       implicit double precision (a-h,o-z)
       dimension x(nn), y(nn)
@@ -320,7 +321,7 @@ c   10 call roblibrunif(RND)
         double precision function rlrobustdnorm(x,nn)
         implicit double precision (a-h,o-z)
         dimension x(nn)
-        
+
         rlrobustdnorm=rldprodd(x,x,nn)
         rlrobustdnorm=dsqrt(rlrobustdnorm)
         return
@@ -383,7 +384,7 @@ C       if (ierr .ne. 0) write(*,*) 'rlxnorma(...,tolb) failed!'
               do  j=1,mm1
                  dire(i)=dire(i)-xx(i,j)*xx(k,j)
               enddo
-           enddo 
+           enddo
            dire(k)=dire(k)+1
            dn=rlrobustdnorm(dire,mm)
            if (dn.ge.tol) goto 40
@@ -434,8 +435,8 @@ C-----------------------------------------------------------------------
          P = COEF(1)+COEF(2)*AX**2+COEF(3)*AX**4+COEF(4)*AX**6
       ENDIF
 
-C      CALL DBLEPR('IN RLRWETML',-1,p,1) 
-      
+C      CALL DBLEPR('IN RLRWETML',-1,p,1)
+
       RETURN
       END
 C=======================================================================
@@ -460,4 +461,3 @@ C-----------------------------------------------------------------------
       IF (P .LT. 0.5D0) X=-X
       RETURN
       END
-        

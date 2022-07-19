@@ -1,3 +1,5 @@
+#define USE_FC_LEN_T
+
 #include "R.h"
 #include "Rinternals.h"
 #include "Rmath.h"
@@ -106,19 +108,19 @@ SEXP covOPW(SEXP SX, SEXP Siter, SEXP SscaleFun, SEXP SrcovFun)
 
 /*	Rprintf("\n %d (%d): %d, %d, %d, %d %d %d \n", k, iter, n, p, np, pp, lwork, liwork);
 */
-    F77_CALL(dsptrd)(&CHARL, &p, U, diagT, offdiagT, tau, &info);
+    F77_CALL(dsptrd)(&CHARL, &p, U, diagT, offdiagT, tau, &info FCONE);
     F77_CALL(dstegr)(&CHARV, &CHARA, &p, diagT, offdiagT, &mu, &mu, &i,
                      &i, &DZERO, &j, gamma, A[k], &p, isuppz, dwork3,
-                     &lwork, iwork, &liwork, &info);
+                     &lwork, iwork, &liwork, &info FCONE FCONE);
     F77_CALL(dopmtr)(&CHARL, &CHARL, &CHARN, &p, &p, U, tau, A[k], &p,
-                     dwork2, &info);
+                     dwork2, &info FCONE FCONE FCONE);
 
     for(j = 0; j < p/2; j++)
       F77_CALL(dswap)(&p, A[k]+j*p, &IONE, A[k]+p*(p-j-1), &IONE);
 
     F77_CALL(dcopy)(&np, Z, &IONE, ZCOPY, &IONE);
     F77_CALL(dgemm)(&CHARN, &CHARN, &n, &p, &p, &DONE, ZCOPY, &n, A[k],
-                    &p, &DZERO, Z, &n);
+                    &p, &DZERO, Z, &n FCONE FCONE);
 
     for(i = 0; i < p; i++)
       for(j = 0; j < p; j++)
@@ -148,13 +150,13 @@ SEXP covOPW(SEXP SX, SEXP Siter, SEXP SscaleFun, SEXP SrcovFun)
   for(k = iter-1; k >= 0; k--) {
     F77_CALL(dcopy)(&pp, cov, &IONE, covcopy, &IONE);
     F77_CALL(dgemm)(&CHARN, &CHARN, &p, &p, &p, &DONE, A[k], &p, covcopy,
-                    &p, &DZERO, cov, &p);
+                    &p, &DZERO, cov, &p FCONE FCONE);
     F77_CALL(dcopy)(&pp, cov, &IONE, covcopy, &IONE);
     F77_CALL(dgemm)(&CHARN, &CHART, &p, &p, &p, &DONE, covcopy, &p, A[k],
-                    &p, &DZERO, cov, &p);
+                    &p, &DZERO, cov, &p FCONE FCONE);
     F77_CALL(dcopy)(&p, center, &IONE, gamma, &IONE);
     F77_CALL(dgemv)(&CHARN, &p, &p, &DONE, A[k], &p, gamma, &IONE,
-                    &DZERO, center, &IONE);
+                    &DZERO, center, &IONE FCONE);
   }
 
   PROTECT(Sans = allocVector(VECSXP, 3));
