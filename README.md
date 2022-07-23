@@ -37,7 +37,7 @@ To install the latest stable development version from GitHub, you can
 pull this repository and install it using
 
     ## install.packages("remotes")
-    remotes::install_github("valentint/rrcov" --no-build-vignettes)
+    remotes::install_github("valentint/rrcov", build_opts = c("--no-build-vignettes"))
 
 Of course, if you have already installed `remotes`, you can skip the
 first line (I have commented it out).
@@ -50,7 +50,7 @@ installed:
 ``` r
 library(rrcov)
 #> Loading required package: robustbase
-#> Scalable Robust Estimators with High Breakdown Point (version 1.6-1)
+#> Scalable Robust Estimators with High Breakdown Point (version 1.7-0)
 data(hbk)
 (out <- CovMcd(hbk))
 #> 
