@@ -90,7 +90,7 @@ centered observations with respect to the loadings:
 matrix (often singular) which can be computed as
 
 \deqn{S=PLP^t}
-where \eqn{L} is the diagonal matrix with the eigenvalues \eqn{l_1, \dots, \l_k}.
+where \eqn{L} is the diagonal matrix with the eigenvalues \eqn{l_1, \dots, l_k}.
 
 This is done in the following three main steps:
 

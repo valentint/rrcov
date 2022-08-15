@@ -115,10 +115,34 @@ c3 <- CovMrcd(hbk.x, alpha = 0.75,
 c1
 
 \dontrun{
+
+##  This is the first example from Boudt et al. (2020). The first variable is 
+##  the dependent one, which we remove and remain with p=226 NIR absorbance spectra 
+
 data(octane)
+
+octane <- octane[, -1]    # remove the dependent variable y
+
 n <- nrow(octane)
 p <- ncol(octane)
+
+##  Compute MRCD with h=33, which gives approximately 15 percent breakdown point.
+##  This value of h was found by Boudt et al. (2020) using a data driven approach, 
+##  similar to the Forward Search of Atkinson et al. (2004). 
+##  The default value of h would be 20 (i.e. alpha=0.5) 
+
 out <- CovMrcd(octane, h=33) 
+out$rho
+
+## Please note that in the paper is indicated that the obtained rho=0.1149, however,
+##  this value of rho is obtained if the parameter maxcond is set equal to 999 (this was 
+##  the default in an earlier version of the software, now the default is maxcond=50). 
+##  To reproduce the result from the paper, change the call to CovMrcd() as follows 
+##  (this will not influence the results shown further):
+
+##  out <- CovMrcd(octane, h=33, maxcond=999) 
+##  out$rho
+
 robpca = PcaHubert(octane, k=2, alpha=0.75, mcd=FALSE)
 (outl.robpca = which(robpca@flag==FALSE))
 

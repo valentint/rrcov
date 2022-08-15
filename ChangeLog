@@ -1,14 +1,24 @@
-2022-02-08  Valentin Todorov  <valentin.todorov@chello.at>
+2022-07-18  Valentin Todorov  <valentin.todorov@chello.at>
     *
-    * DESCRIPTION (Version): 1.6-2
+    * DESCRIPTION (Version): 1.7-1
     *
-    * src/covOPW.c - Fix for USE_FC_LEN_T becoming the default in 4.2.0
-    * src/ds11.f, fsada.f - fixed several Fortran warnings
+    * R/CovMrcd.R: Fixed - maxcond passed to the low level functions
+    * R/detmrcd.R, plot_utils.R: Fixed errors "Found if() conditions comparing class() to string"
+    * man/PcaHubert.Rd: Fixed NOTE "Found the following math rendering problems", see
+    *   mail from Kurt Hornik from 11 August 2022
     *
 
 2022-04-25  Valentin Todorov  <valentin.todorov@chello.at>
     *
     * DESCRIPTION (Version): 1.7-0
+    *
+    * src/covOPW.c - Fix for USE_FC_LEN_T becoming the default in 4.2.0
+    * src/ds11.f, fsada.f - fixed several Fortran warnings
+    *
+
+2022-02-08  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.6-2
     *
     * tests/thubert.R - minor differences in tests for PcaProj() on some platforms fixed
     * Examples for PCA/adjustment for skewed data and PCA/percentage of explained

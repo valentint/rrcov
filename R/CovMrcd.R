@@ -23,9 +23,10 @@ CovMrcd <- function(x,
     n <- dx[1]; p <- dx[2]
     dimn <- dimnames(x)
 
+    ## VT::18.07.2022 - maxcond passed to the lowlevel function
     mcd <- .detmrcd (x, alpha=alpha, h=h, hsets.init = initHsets,
 		      save.hsets=save.hsets, # full.h=full.h,
-		      rho=rho, target=if(target=="identity") 0 else 1,
+		      rho=rho, maxcond=maxcond, target=if(target=="identity") 0 else 1,
               maxcsteps=maxcsteps,
               trace=as.integer(trace))
 

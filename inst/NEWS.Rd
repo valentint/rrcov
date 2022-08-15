@@ -4,6 +4,20 @@
 \title{News for \R Package \pkg{rrcov}}
 \encoding{UTF-8}
 
+\section{CHANGES in rrcov VERSION 1.7-1 (2022-07-18)}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item NOTHING NEW YET
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item Fixed - maxcond passed to the low level functions
+      \item Fixed errors "Found if() conditions comparing class() to string" in detmrcd.R and plot_utils.R
+      \item Fixed NOTE "Found the following math rendering problems" in PcaHubert.Rd, see mail from Kurt Hornik from 11 August 2022
+    }
+  }
+}  
 \section{CHANGES in rrcov VERSION 1.7-0 (2022-04-25)}{
   \subsection{NEW FEATURES}{
     \itemize{

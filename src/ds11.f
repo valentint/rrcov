@@ -290,7 +290,10 @@ c   10 call roblibrunif(RND)
       J=1
 992   I=J
 996   IM=I+M
-      IF(SWITCH) 810,810,800
+
+CCCC    VT::18.07.2022
+CCCC      IF(SWITCH) 810,810,800
+      IF(SWITCH.LE.0) GO TO 810
 800    IF (A(I).GT.A(IM)) GO TO 110
       GO TO 995
 810    IF(A(I).LT.A(IM)) GO TO 110

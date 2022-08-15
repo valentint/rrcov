@@ -1,21 +1,21 @@
-##### bm_lts #####
+##### bmmcd #####
 # Benchmark for rrcov::covMcd() and MASS::cov.mcd() on several n and p.
 #
 #   V.Todorov: 16.08.2004
-# 
-# For each n and p (specified by the arrays <an> and <ap>) a data set 
+#
+# For each n and p (specified by the arrays <an> and <ap>) a data set
 #   is generated (see the function gendata() for description of the model)
 #   and MCD is computed by calling covMcd(). All defaults are accepted
 #
 # Each test (for given n and p) is performed several times (specified
 #   by the parameter <nrep>) and the result is averaged.
-#   
-# Input argument: 
+#
+# Input argument:
 #   nrep: Number of times the tests are executed (defaults to 3)
 #   eps: contamination proportion - see function gendata() (defaults to 0.4)
 #   method: "rrcov" or "MASS"
 #
-bmmcd <- function(nrep=1, eps=0.40, method=c("rrcov", "MASS", "S", "Smcd")){
+bmmcd <- function(nrep=1, eps=0.40, method=c("rrcov", "MASS", "S", "Smcd", "mrcd", "detmcd")){
 
     method <- match.arg(method)
 
@@ -26,7 +26,7 @@ bmmcd <- function(nrep=1, eps=0.40, method=c("rrcov", "MASS", "S", "Smcd")){
     if(method == "S" || method == "Smcd"){
        library(Robust)
     }
-	    
+	
     library(MASS)
 
     ap <- c(2, 5, 10, 20, 30)
@@ -52,39 +52,43 @@ bmmcd <- function(nrep=1, eps=0.40, method=c("rrcov", "MASS", "S", "Smcd")){
                 xx <- gendataMCD(n, p, eps)
 		X <- as.data.frame(xx$X)
 
-                ptm <- proc.time()
-                for(k in 1:nrep){
-                    if(method == "MASS")
-                        cov.mcd(X)
-                    else if(method == "rrcov")
-		    	covMcd(X)
-		    else if(method == "S")	
-		        covRob(X)
-		    else if(method == "Smcd")	
-		        covRob(X,estim="mcd")
-		    else
-		    	stop("No method specified")
-                }
-                xtime <- proc.time() - ptm
-                xtime <- xtime[1]/nrep
-                
+            ptm <- proc.time()
+            for(k in 1:nrep){
+                if(method == "MASS")
+                    cov.mcd(X)
+                else if(method == "rrcov")
+                    covMcd(X)
+                else if(method == "S")	
+                    covRob(X)
+                else if(method == "Smcd")	
+                    covRob(X,estim="mcd")
+                else if(method == "detmcd")	
+                    CovMcd(X, nsamp="deterministic")
+                else if(method == "mrcd")	
+                    CovMrcd(X)
+                else
+                    stop("No method specified")
+            }
+            xtime <- proc.time() - ptm
+            xtime <- xtime[1]/nrep
+
 #                cat(sprintf("%6d %3d %10.2f\n", n, p, xtime))
                 cat(format(n), format(p), format(xtime, nsmall=2),"\n")
-                
+
             }
-        } 
+        }
     }
-    
+
     tottime <- proc.time() - btime
     cat("=====================\n")
     cat("Total time: ", tottime[1], "\n")
 }
 
 #### gendata() ####
-# Generates a location contaminated multivariate 
+# Generates a location contaminated multivariate
 # normal sample of n observations in p dimensions
 #    (1-eps)*Np(0,Ip) + eps*Np(m,Ip)
-# where 
+# where
 #    m = (b,b,...,b)
 # Defaults: eps=0 and b=10
 #

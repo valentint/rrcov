@@ -474,7 +474,10 @@ myscreeplot <- function(rcov, ccov) {
         rect(breaks[-nB], 0, breaks[-1], y, col=hcol)
 
         tryd <- try( d <- density(x, na.rm=TRUE, bw="nrd", adjust=1.2), silent=TRUE)
-        if(class(tryd) != "try-error")
+
+        ## VT::11.08.2022: fix error "Found if() conditions comparing class() to string"
+        ##  if(class(tryd) != "try-error")
+        if(!is(tryd, "try-error"))
         {
             d$y <- d$y/max(d$y)
             lines(d, col=dcol)

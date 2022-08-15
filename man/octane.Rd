@@ -6,12 +6,13 @@
     The octane data contains near infrared absorbance spectra (NIR) of 
     \code{n=39} gasoline samples over \code{p=226} wavelengths ranging 
     from 1102 nm to 1552 nm with measurements every two nanometers. For
-    each of the 39 production gasoline samples the octane number was measured.
+    each of the 39 production gasoline samples the octane number \code{y} was measured.
     Six of the samples (25, 26, and 36-39) contain added alcohol.
 }
 \usage{data(octane)}
 \format{
-  A data frame with 39 observations and 226 columns, the wavelengts are by column.
+  A data frame with 39 observations and 227 columns, the wavelengts are 
+    by column and the first variable is the dependent one (\code{y}).
 }
 
 %\details{}
@@ -30,6 +31,8 @@
 }
 \examples{
 data(octane)
+
+octane <- octane[, -1]    # remove the dependent variable y
 
 pca=PcaHubert(octane, k=10)
 screeplot(pca, type="lines")

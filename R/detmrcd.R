@@ -474,9 +474,12 @@ eigenEQ <- function(T)
                 e1 <- min(veigen)
                 ep <- max(veigen)
 
+                ##  cat("\ncase T=I: ", k, e1, ep)
+
                 fncond <- function(rho)
                 {
                     condnr <-  (rho + (1-rho) * ep) / (rho + (1-rho) * e1)
+                    ##  cat("\n ...... condnr: ", condnr, condnr-maxcond, "\n")
                     return(condnr - maxcond)
                 }
             } else {
@@ -490,8 +493,12 @@ eigenEQ <- function(T)
             }
 
             out <- try(uniroot(f=fncond, lower=0.00001, upper=0.99), silent=TRUE)
-            if(class(out) != "try-error") {
+
+            ## VT::11.08.2022: fix error "Found if() conditions comparing class() to string"
+            ##  if(class(out) != "try-error") {
+            if(!is(out, "try-error")) {
                 rho6pack[k] <- out$root
+                ##  cat("\nOK: ", k, out$root, "\n")
             }else {
                 grid <- c(0.000001, seq(0.001, 0.99, by=0.001), 0.999999)
                 if(all(mT == diag(p))) {
@@ -502,12 +509,21 @@ eigenEQ <- function(T)
                     irho <- min(grid[objgrid == min(objgrid)])
                 }
                 rho6pack[k] <- irho
+                ##  cat("\nNOT OK: ", k, irho, "\n")
+
             }
         }
 
         ## 3.5 Set rho as max of the rho_i's obtained for each subset in previous step
         cutoffrho <- max(c(0.1, median(rho6pack)))
         rho <- max(rho6pack[rho6pack <= cutoffrho])
+
+        if(trace) {
+            cat("\nSet rho as max of the rho_i obtained for each subset in previous step.")
+            cat("\nrho, cutoffrho=", rho, cutoffrho, "\n")
+            print(rho6pack)
+        }
+
         Vselection <- seq(1, nsets)
         Vselection[rho6pack > cutoffrho] = NA
         if(sum(!is.na(Vselection)) == 0){
@@ -536,9 +552,9 @@ eigenEQ <- function(T)
         if(trace) {
             if(trace >= 2)
                 cat(sprintf("H-subset %d = observations c(%s):\n-----------\n",
-                k, paste(hsets.init[1:h, k], collapse=", ")))
-        else
-            cat(sprintf("H-subset %d: ", k))
+                    k, paste(hsets.init[1:h, k], collapse=", ")))
+             else
+                cat(sprintf("H-subset %d: ", k))
        }
        tmp <- .cstep_mrcd(mX=mX, rho=rho, mT=mT, target=target, h=h, scfac=scfac, index=hsets.init[,k], maxcsteps=maxcsteps)
         objtmp <- obj(tmp$cov)
