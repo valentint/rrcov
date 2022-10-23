@@ -1,3 +1,11 @@
+2022-10-22  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-2
+    *
+    * src/rrcov_init.c: Fixed -  warning: invalid UTF-8 in comment [-Winvalid-utf8]
+    *   see mail of K.Hornik from 17.10.2022
+    *
+
 2022-07-18  Valentin Todorov  <valentin.todorov@chello.at>
     *
     * DESCRIPTION (Version): 1.7-1
