@@ -70,3 +70,24 @@ data(hbk)
 #> X3   0.28699   0.22130   1.55468  -0.21853
 #> Y    0.16560  -0.01917  -0.21853   0.45091
 ```
+
+## Community guidelines
+
+### Report issues and request features
+
+If you experience any bugs or issues or if you have any suggestions for
+additional features, please submit an issue via the
+[*Issues*](https://github.com/valentint/rrcov/issues) tab of this
+repository. Please have a look at existing issues first to see if your
+problem or feature request has already been discussed.
+
+### Contribute to the package
+
+If you want to contribute to the package, you can fork this repository
+and create a pull request after implementing the desired functionality.
+
+### Ask for help
+
+If you need help using the package, or if you are interested in
+collaborations related to this project, please get in touch with the
+package maintainer.
