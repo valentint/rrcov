@@ -9,6 +9,7 @@
 version](https://www.r-pkg.org/badges/version/rrcov)](https://cran.r-project.org/package=rrcov)
 [![R-CMD-check](https://github.com/valentint/rrcov/workflows/R-CMD-check/badge.svg)](https://github.com/valentint/rrcov/actions)
 [![downloads](https://cranlogs.r-pkg.org/badges/rrcov)](https://cran.r-project.org/package=rrcov)
+[![downloads](https://cranlogs.r-pkg.org/badges/grand-total/rrcov)](https://cran.r-project.org/package=rrcov)
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 <!-- badges: end -->
 
@@ -50,7 +51,7 @@ installed:
 ``` r
 library(rrcov)
 #> Loading required package: robustbase
-#> Scalable Robust Estimators with High Breakdown Point (version 1.7-0)
+#> Scalable Robust Estimators with High Breakdown Point (version 1.7-2)
 data(hbk)
 (out <- CovMcd(hbk))
 #> 
