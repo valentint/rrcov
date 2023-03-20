@@ -2,7 +2,7 @@
 ##  VT::14.01.2020
 ##
 ##
-##  roxygen2::roxygenise("C:/projects/statproj/R/rrcov")
+##  roxygen2::roxygenise("C:/users/valen/onedrive/myrepo/R/rrcov", load_code=roxygen2:::load_installed)
 ##
 #' Calculates the points for drawing a confidence ellipsoid
 #'

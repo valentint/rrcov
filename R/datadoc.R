@@ -3,7 +3,6 @@
 ##
 ##
 ##  roxygen2::roxygenise("c:/Users/valen/OneDrive/MyRepo/R/rrcov", load_code=roxygen2:::load_installed, clean=TRUE)
-##  roxygen2::roxygenise("c:/projects/statproj/R/rrcov", load_code=roxygen2:::load_installed, clean=TRUE)
 ##
 #'
 #'
