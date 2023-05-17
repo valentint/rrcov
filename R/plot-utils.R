@@ -128,7 +128,7 @@ myscreeplot <- function(rcov, ccov) {
         id.n <- length(which(rd>cutoff))
 
     plot(md, rd, xlab=xlab, ylab=ylab, type="p", ...)
-    .label(md,rd,id.n, labs=labs)
+    .label(md, rd, id.n, labs=labs)
     abline(0, 1, lty=2)
     abline(v=cutoff)
     abline(h=cutoff)
@@ -580,6 +580,7 @@ myscreeplot <- function(rcov, ccov) {
         n <- length(y)
         if(missing(id.n))
             id.n <- length(which(y > cutoff))
+
         if(id.n > 0){
             ind <- sort(y, index.return=TRUE)$ix
             ind <- ind[(n-id.n+1):n]
@@ -671,18 +672,18 @@ myscreeplot <- function(rcov, ccov) {
     dd1 <- sqrt(getDistance(obj))                   # robust distances
     if(inherits(obj, "CovMrcd"))
     {
-        vv  <- CovMrcd(X, alpha=1)                  # classical REGULARIZED center and covariance
-        dd2 <- sqrt(getDistance(obj))               # classical Mahalanobis distances
+        vv  <- CovMrcd(X, alpha=1)                   # classical REGULARIZED center and covariance
+        dd2 <- sqrt(getDistance(vv))                 # classical Mahalanobis distances
     } else
     {
-        vv  <- cov.wt(X)                                # classical center and covariance
-        dd2 <- sqrt(mahalanobis(X,vv$center,vv$cov))    # classical Mahalanobis distances
+        vv  <- cov.wt(X)                             # classical center and covariance
+        dd2 <- sqrt(mahalanobis(X,vv$center,vv$cov)) # classical Mahalanobis distances
     }
-    dd  <- c(dd1, dd2)                              # a vector with both robust and classical distances
+    dd  <- c(dd1, dd2)                               # a vector with both robust and classical distances
 
     qq <- sqrt(qchisq(((1:n)-1/3)/(n+1/3), p))
     ind<-c(qq, qq)
-    gr<-as.factor(c(rep(1,n), rep(2,n)))            # 1, 1, ...., 1, 2, 2, ..., 2   - n x 1, n x 2
+    gr<-as.factor(c(rep(1,n), rep(2,n)))             # 1, 1, ...., 1, 2, 2, ..., 2   - n x 1, n x 2
     levels(gr)[1]<-"Robust"
     levels(gr)[2]<-"Classical"
 

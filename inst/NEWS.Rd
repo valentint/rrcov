@@ -4,12 +4,19 @@
 \title{News for \R Package \pkg{rrcov}}
 \encoding{UTF-8}
 
-\section{CHANGES in rrcov VERSION 1.7-2 (2022-10-22)}{
+\section{CHANGES in rrcov VERSION 1.7-3 (2023-05-11)}{
   \subsection{NEW FEATURES}{
     \itemize{
-      \item NOTHING NEW YET
+      \item data/ionosphere.rda - data set added
     }
   }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item R/CovRobust, plot_utils: 'xyqqchi2' and 'xydistance' plots, fixed to use of parameter id.n
+    }
+  }
+}  
+\section{CHANGES in rrcov VERSION 1.7-2 (2022-10-22)}{
   \subsection{BUG FIXES}{
     \itemize{
       \item Fixed -  warning: invalid UTF-8 in comment [-Winvalid-utf8] in src/rrcov_init.c

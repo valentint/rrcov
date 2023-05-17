@@ -47,7 +47,7 @@ observations, respectively.
 }
 \source{
     Prof. Roberto Todeschini, Milano Chemometrics and QSAR Research Group
-    \url{http://michem.disat.unimib.it/chm/download/datasets.htm}
+    \url{https://michem.unimib.it}
 }
 \references{
     C. Armanino, R. Leardi, S. Lanteri and G. Modi, 1989. 

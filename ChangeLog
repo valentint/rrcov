@@ -1,3 +1,11 @@
+2023-03-23  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-3
+    *
+    * data/ionosphere.rda - data set added
+    * R/CovRobust, plot_utils: 'xyqqchi2' and 'xydistance' plots, fixed to use of parameter id.n
+    *
+
 2022-10-22  Valentin Todorov  <valentin.todorov@chello.at>
     *
     * DESCRIPTION (Version): 1.7-2

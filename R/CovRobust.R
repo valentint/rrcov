@@ -139,6 +139,8 @@ setMethod("plot", signature(x="CovRobust", y="missing"),
                                 labels.id = rownames(x$X),
                                 tol = 1e-7, ...)
 {
+    which <- match.arg(which)
+
     data <- getData(x)
     ##  parameters and preconditions
     if(is.vector(data) || is.matrix(data)) {
@@ -172,22 +174,27 @@ setMethod("plot", signature(x="CovRobust", y="missing"),
     }
 
     ## VT::12.11.2018 - In case of MRCD we can use also classic regularized estimate
-    if(inherits(x, "CovMrcd"))
-    {
-        ccov <- CovMrcd(data, alpha=1)
-        md <- sqrt(getDistance(ccov))
-        rd <- sqrt(getDistance(x))
-    } else
-    {
-        ccov <- CovClassic(data)
-        md <- rd <- NULL
-        if(!isSingular(ccov))
+    ## VT::04.05.2023: no need to do this if the plot is one of the "xy" (lattice) ones -
+    ##  in these cases the computation of the classical distances will be done within
+    ##  the respective function
+    md <- rd <- NULL
+    if(!(which %in% c("xydistance", "xyqqchi2"))) {
+        if(inherits(x, "CovMrcd")) {
+            ccov <- CovMrcd(data, alpha=1)
             md <- sqrt(getDistance(ccov))
-        if(!isSingular(x))
             rd <- sqrt(getDistance(x))
+        } else {
+            ccov <- CovClassic(data)
+            if(!isSingular(ccov))
+                md <- sqrt(getDistance(ccov))
+            if(!isSingular(x))
+                rd <- sqrt(getDistance(x))
+        }
     }
 
-    which <- match.arg(which)
+##    if(missing(id.n))
+##         id.n <- if(is.null(rd)) 0 else length(which(rd > cutoff))
+
     op <- if (ask) par(ask = TRUE) else list()
     on.exit(par(op))
 
@@ -214,8 +221,11 @@ setMethod("plot", signature(x="CovRobust", y="missing"),
     }
 
     ## lattice: index plot of mahalanobis distances
-    if(which == "xydistance"  && !is.null(rd)) {
-        print(.xydistplot(x, cutoff=cutoff, ...))      # lattice:  index plot of robust distances
+    if(which == "xydistance") {
+        if(missing(id.n))
+            print(.xydistplot(x, cutoff=cutoff, ...))               # lattice:  index plot of robust distances
+        else
+            print(.xydistplot(x, cutoff=cutoff, id.n=id.n, ...))    # lattice:  index plot of robust distances
 
     }
 
@@ -236,8 +246,11 @@ setMethod("plot", signature(x="CovRobust", y="missing"),
 
     ## lattice: qq-plot of the mahalanobis distances versus the
     ##          quantiles of the chi-squared distribution
-    if(which == "xyqqchi2"  && !is.null(rd)) {
-        print(.xyqqchi2(x, cutoff=cutoff, ...))        # lattice:  qq-plot of the distances versus
+    if(which == "xyqqchi2") {
+        if(missing(id.n))
+            print(.xyqqchi2(x, cutoff=cutoff, ...))   # lattice:  qq-plot of the distances versus
+        else
+            print(.xyqqchi2(x, cutoff=cutoff, id.n=id.n, ...))   # lattice:  qq-plot of the distances versus
     }
 
     if(which == "tolEllipsePlot" || which == "pairs") {

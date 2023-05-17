@@ -1,21 +1,13 @@
-citHeader("To cite rrcov in publications use:")
+citHeader("To cite the package 'rrcov' in publications use:")
 
-citEntry(
-entry = "Article",
-  title        = "An Object-Oriented Framework for Robust Multivariate Analysis",
-  author       = personList(as.person("Valentin Todorov"),
-                   as.person("Peter Filzmoser")),
-  journal      = "Journal of Statistical Software",
-  year         = "2009",
-  volume       = "32",
-  number       = "3",
-  pages        = "1--47",
-  doi          = "10.18637/jss.v032.i03",
-  textVersion  =
-    paste("Valentin Todorov, Peter Filzmoser (2009).",
-          "An Object-Oriented Framework for Robust Multivariate Analysis.",
-          "Journal of Statistical Software, 32(3), 1-47.",
-          "DOI:  10.18637/jss.v032.i03.")
-)
-
-
+bibentry(bibtype = "Article",
+         title = "An Object-Oriented Framework for Robust Multivariate Analysis",
+         journal = "Journal of Statistical Software",
+         author = c(person(given = "Valentin", family = "Todorov"),
+                    person(given = "Peter", family = "Filzmoser")),
+         year = "2009",
+         volume = "32",
+         number = "3",
+         pages = "1--47",
+         doi = "10.18637/jss.v032.i03"
+         )

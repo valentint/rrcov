@@ -434,51 +434,51 @@ c
 c
 c     Do the downdate, removing case icasot
 c
-		ngp = igp(icasot)
-		jgp = igp(jin)
-		wold = wtv(ngp)
-		wnew = wold - one
-		rati = wold / wnew
-		wtv(ngp) = wnew
-		fact = rati / (one - rati * ustu(icasot))
-		do 70 i = 1, nord
-			devi(i) = data(i,icasot) - ave(i,ngp)
-			ave(i,ngp) = ave(i,ngp) - devi(i) / wnew
-			devj(i) = data(i,jin) - ave(i,jgp)
-			do 71 j = 1, i
-				cov(i,j) = cov(i,j) - devi(i) * devi(j) * rati
-				cov(j,i) = cov(i,j)
-				cinv(i,j) = cinv(i,j) + datimg(i,icasot) *
-     1				datimg(j,icasot) * fact
-				cinv(j,i) = cinv(i,j)
- 71         continue
- 70		continue
-		call verify1(cov,cinv,nord)
+        ngp = igp(icasot)
+        jgp = igp(jin)
+        wold = wtv(ngp)
+        wnew = wold - one
+        rati = wold / wnew
+        wtv(ngp) = wnew
+        fact = rati / (one - rati * ustu(icasot))
+        do 70 i = 1, nord
+            devi(i) = data(i,icasot) - ave(i,ngp)
+            ave(i,ngp) = ave(i,ngp) - devi(i) / wnew
+            devj(i) = data(i,jin) - ave(i,jgp)
+            do 71 j = 1, i
+                cov(i,j) = cov(i,j) - devi(i) * devi(j) * rati
+                cov(j,i) = cov(i,j)
+                cinv(i,j) = cinv(i,j) + datimg(i,icasot) *
+     1              datimg(j,icasot) * fact
+                cinv(j,i) = cinv(i,j)
+71          continue
+70      continue
+        call verify1(cov,cinv,nord)
 c
 c     Now do the update, adding case jin
 c
-		wold = wtv(jgp)
-		wnew = wold + one
-		wtv(jgp) = wnew
-		rati = wold / wnew
-		sum2 = 0
-		do 80 i = 1, nord
-			ave(i,jgp) = ave(i,jgp) + devj(i) / wnew
-			sum = 0
-			do 81 j = 1, nord
-				cov(i,j) = cov(i,j) + rati * devj(i) * devj(j)
- 				sum = sum + cinv(i,j) * devj(j)
- 81         continue
-			devi(i) = sum
-			sum2 = sum2 + devi(i) * devj(i)
- 80		continue
-		factor = rati / (one + rati * sum2)
-		do 85 i = 1, nord
-			do 86 j = 1, nord
-   				cinv(i,j) = cinv(i,j) - devi(i) * devi(j) * factor
- 86         continue
- 85     continue
-		call verify1(cov,cinv,nord)
+        wold = wtv(jgp)
+        wnew = wold + one
+        wtv(jgp) = wnew
+        rati = wold / wnew
+        sum2 = 0
+        do 80 i = 1, nord
+            ave(i,jgp) = ave(i,jgp) + devj(i) / wnew
+            sum = 0
+            do 81 j = 1, nord
+                cov(i,j) = cov(i,j) + rati * devj(i) * devj(j)
+                sum = sum + cinv(i,j) * devj(j)
+81          continue
+            devi(i) = sum
+            sum2 = sum2 + devi(i) * devj(i)
+80      continue
+        factor = rati / (one + rati * sum2)
+        do 85 i = 1, nord
+            do 86 j = 1, nord
+                cinv(i,j) = cinv(i,j) - devi(i) * devi(j) * factor
+86          continue
+85      continue
+        call verify1(cov,cinv,nord)
       go to 30
 
  90   return
