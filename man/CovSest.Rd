@@ -12,9 +12,10 @@
 \usage{
     CovSest(x, bdp = 0.5, arp = 0.1, eps = 1e-5, maxiter = 120,
         nsamp = 500, seed = NULL, trace = FALSE, tolSolve = 1e-14,
-        scalefn, maxisteps=200, initHsets = NULL, save.hsets = missing(initHsets) || is.null(initHsets),
-        method = c("sfast", "surreal", "bisquare", "rocke", "suser", "sdet"), control,
-        t0, S0, initcontrol)
+        scalefn, maxisteps=200, 
+        initHsets = NULL, save.hsets = missing(initHsets) || is.null(initHsets),
+        method = c("sfast", "surreal", "bisquare", "rocke", "suser", "sdet"), 
+        control, t0, S0, initcontrol)
 }
 \arguments{
   \item{x}{ a matrix or data frame. }
