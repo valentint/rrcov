@@ -17,7 +17,7 @@
 
 ..detSloc <- function(x,
                       hsets.init=NULL,
-                      save.hsets=missing(hsets.init), full.h=save.hsets,
+                      save.hsets=missing(hsets.init) || is.null(hsets.init), full.h=save.hsets,
                       scalefn,
                       maxisteps = 200, warn.nonconv.csteps = FALSE,
                       ## k=0,              # no need of preliminary refinement
