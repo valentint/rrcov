@@ -4,6 +4,16 @@
 \title{News for \R Package \pkg{rrcov}}
 \encoding{UTF-8}
 
+\section{CHANGES in rrcov VERSION 1.7-4 (2023-06-22)}{
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item DESCRIPTION: ISBN changed to <urn:isbn:978-3838108148> 
+        (see mail from Kurt Hornik from 06.06.2023)
+      \item tests/thubert.Rout.save, tlda.Rout.save, tmcd4.Rout.save, tqda.Rout.save: 
+        Follow up to changes in robustbase 0.99-0
+    }
+  }
+}  
 \section{CHANGES in rrcov VERSION 1.7-3 (2023-05-11)}{
   \subsection{NEW FEATURES}{
     \itemize{

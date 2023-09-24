@@ -1,3 +1,12 @@
+2023-18-06  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-4
+    *
+    * DESCRIPTION: ISBN changed to <urn:isbn:978-3838108148> 
+    *    (mail from Kurt Hornik from 06.06.2023)
+    * tests/thubert.Rout.save, tlda.Rout.save, tmcd4.Rout.save, tqda.Rout.save:
+    *   Follow up to changes in robustbase 0.99-0
+    *   
 2023-03-23  Valentin Todorov  <valentin.todorov@chello.at>
     *
     * DESCRIPTION (Version): 1.7-3

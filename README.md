@@ -49,9 +49,10 @@ This is a basic example which shows you if the package is properly
 installed:
 
 ``` r
+
 library(rrcov)
 #> Loading required package: robustbase
-#> Scalable Robust Estimators with High Breakdown Point (version 1.7-2)
+#> Scalable Robust Estimators with High Breakdown Point (version 1.7-3)
 data(hbk)
 (out <- CovMcd(hbk))
 #> 
@@ -61,14 +62,14 @@ data(hbk)
 #> 
 #> Robust Estimate of Location: 
 #>       X1        X2        X3         Y  
-#>  1.50345   1.85345   1.68276  -0.06552  
+#>  1.55833   1.80333   1.66000  -0.08667  
 #> 
 #> Robust Estimate of Covariance: 
 #>     X1        X2        X3        Y       
-#> X1   1.56742   0.15447   0.28699   0.16560
-#> X2   0.15447   1.60912   0.22130  -0.01917
-#> X3   0.28699   0.22130   1.55468  -0.21853
-#> Y    0.16560  -0.01917  -0.21853   0.45091
+#> X1   1.58739   0.03129   0.21694   0.10748
+#> X2   0.03129   1.60733   0.25612   0.02864
+#> X3   0.21694   0.25612   1.47254  -0.18174
+#> Y    0.10748   0.02864  -0.18174   0.44081
 ```
 
 ## Community guidelines
