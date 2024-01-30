@@ -4,6 +4,19 @@
 \title{News for \R Package \pkg{rrcov}}
 \encoding{UTF-8}
 
+\section{CHANGES in rrcov VERSION 1.7-5 (2024-01-30)}{
+  \subsection{NEW FEATURES}{
+    \itemize{
+      \item data/Cars.rda - data set added
+    }
+  }
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item rrcov-utils.Rd: (mail from Kurt Hornik from 22.01.2024)
+      \item fish.Rd: URL corrected
+    }
+  }
+}  
 \section{CHANGES in rrcov VERSION 1.7-4 (2023-06-22)}{
   \subsection{BUG FIXES}{
     \itemize{

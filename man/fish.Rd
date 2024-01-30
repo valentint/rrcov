@@ -42,8 +42,8 @@
 }
 \source{
     Journal of Statistical Education, Fish Catch Data Set,
-    [http://www.amstat.org/publications/jse/datasets/fishcatch.txt] accessed
-    August, 2006.
+    [https://jse.amstat.org/datasets/fishcatch.dat.txt] accessed
+    November, 2023.
 }
 \references{
 Todorov, V. (2007 Robust selection of variables in linear

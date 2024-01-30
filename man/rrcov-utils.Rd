@@ -24,11 +24,11 @@
 
 \arguments{
   \item{A}{A matrix.}
-  \item{tol}{Optional numerical tolerance (compared to singular values).}
-  \item{sv}{A vector of non-increasing singular values of a matrix A, if already computed.}
+%  \item{tol}{Optional numerical tolerance (compared to singular values).}
+%  \item{sv}{A vector of non-increasing singular values of a matrix A, if already computed.}
   \item{rcov, ccov}{Covariance matrices.}
-  \item{n}{Number of rows.}
-  \item{p}{Number of columns.}
+%  \item{n}{Number of rows.}
+%  \item{p}{Number of columns.}
   \item{actual}{Actual class membership.}
   \item{predicted}{Predicted class membership.}
   \item{prior}{Prior probabilities.}
