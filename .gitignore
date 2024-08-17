@@ -18,6 +18,7 @@
 *.o
 *.dll
 *.rds
+
 # Output files from R CMD check
 /*.Rcheck/
 
