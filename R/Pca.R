@@ -439,10 +439,8 @@ pca.screeplot <- function (obj, k, type = c("barplot", "lines"), main = deparse1
 
 ## Score plot of the Pca object 'obj' - scatterplot of ith against jth score
 ##  with superimposed tollerance (0.975) ellipse
-pca.scoreplot <- function(obj, i=1, j=2, main, id.n, ...)
-{
-    if(missing(main))
-    {
+pca.scoreplot <- function(obj, i=1, j=2, main, id.n, ...) {
+    if(missing(main)) {
         main <- if(inherits(obj,"PcaClassic")) "Classical PCA" else "Robust PCA"
     }
 

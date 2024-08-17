@@ -37,7 +37,7 @@ CovMcd(x,
     }
   \item{scalefn}{\code{\link{function}} to compute a robust scale
     estimate or character string specifying a rule determining such a
-    function, see \code{\link{rrcov.control}}.}
+    function, see \code{\link[robustbase]{rrcov.control}}.}
   \item{maxcsteps}{maximal number of concentration steps in the
     deterministic MCD; should not be reached.}
   \item{initHsets}{NULL or a \eqn{K x h} integer matrix of initial

@@ -219,7 +219,7 @@ myscreeplot <- function(rcov, ccov) {
         n <- length(y)
         ind <- sort(y, index.return=TRUE)$ix
         ind <- ind[(n-id.n+1):n]
-        text(x[ind] + xrange/50, y[ind], labs[ind])
+        text(x[ind] + xrange/40, y[ind], labs[ind], cex=0.9)
     }
 }
 
@@ -324,8 +324,8 @@ myscreeplot <- function(rcov, ccov) {
     ylab = "",
     main="Tolerance ellipse (97.5%)",
     sub="",
-    txt.leg=c("robust", "classical"), col.leg = c("red", "blue"),
-    lty.leg=c("solid", "dashed"),
+    leg.txt=c("robust", "classical"), leg.col=c("red", "blue"),
+    leg.lty=c("solid", "dashed"),
     xlim, ylim,
     off.x, off.y,
     ...)
@@ -390,6 +390,8 @@ myscreeplot <- function(rcov, ccov) {
         sub=sub, ...)
 
     box()
+    
+    ## Add the labels
     if(id.n > 0) {
         if(missing(off.x))
         {
@@ -404,14 +406,16 @@ myscreeplot <- function(rcov, ccov) {
             off.y <- xrange/50
         }
         labels <- if(!is.null(rownames(x))) rownames(x)[ind] else ind
-        text(x[ind, 1] + off.x, x[ind, 2] + off.y, labels, ...)
+        text(x[ind, 1] + off.x, x[ind, 2] + off.y, labels)
     }
 
-    points(z2, type = "l", lty = lty.leg[1], col = col.leg[1], ...)
-    if (classic) {
-        points(z1, type = "l", lty = lty.leg[2], col = col.leg[2], ...)
-        legend("bottomright", txt.leg, lty = lty.leg, col = col.leg, ...)
+    ## Draw the ellipse(s)
+    points(z2, type="l", lty=leg.lty[1], col=leg.col[1])
+    if(classic) {
+        points(z1, type="l", lty=leg.lty[2], col=leg.col[2])
+        legend("bottomright", leg.txt, lty=leg.lty, col=leg.col)
     }
+    
     invisible()
 }
 
@@ -424,7 +428,7 @@ myscreeplot <- function(rcov, ccov) {
 ##  - main  - caption of the plot
 ##
 .rrpairs <- function(obj, main="", sub="", xlab="", ylab="", ...){
-    hcol       <- "cyan"      # colour for histogram
+    hcol       <- "#377eb8"   # colour for histogram - dark blue
     dcol       <- "red"       # color of the density line
     ecol.class <- "blue"      # colour for classical ellipse
     ecol.rob   <- "red"       # colour for robust ellipse
@@ -454,7 +458,7 @@ myscreeplot <- function(rcov, ccov) {
 
     panel.hist <- function(x, ...)
     {
-        usr <- par("usr"); on.exit(par(usr))
+        usr <- par("usr"); on.exit(par(usr=usr))
         par(usr = c(usr[1:2], 0, 1.5) )
 
         h <- hist(x, plot = FALSE)
@@ -465,7 +469,7 @@ myscreeplot <- function(rcov, ccov) {
 
     panel.hist.density <- function(x,...)
     {
-        usr <- par("usr"); on.exit(par(usr))
+        usr <- par("usr"); on.exit(par(usr=usr))
         par(usr = c(usr[1:2], 0, 1.5) )
 
         h <- hist(x, plot = FALSE)
@@ -488,7 +492,7 @@ myscreeplot <- function(rcov, ccov) {
     {
         ix <- which.ij(x, y, getData(obj))
 
-        usr <- par("usr"); on.exit(par(usr))
+        usr <- par("usr"); on.exit(par(usr=usr))
         par(usr = c(0, 1, 0, 1))
 
         r <- cor(x, y)
@@ -512,7 +516,7 @@ myscreeplot <- function(rcov, ccov) {
 
     panel.ellipse <- function(x, y, ...)
     {
-        usr <- par("usr"); on.exit(par(usr))
+        usr <- par("usr"); on.exit(par(usr=usr))
 
         X <- cbind(x,y)
         C.ls <- cov(X)

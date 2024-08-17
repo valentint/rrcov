@@ -1,3 +1,11 @@
+2024-08-17  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-6
+    *
+    * R/plot-utils - a bug fixed in function .rrpairs()
+    * man/*: Correct Rd file(s) with Rd \link{} targets missing package anchors
+    *   
+    
 2024-01-30  Valentin Todorov  <valentin.todorov@chello.at>
     *
     * DESCRIPTION (Version): 1.7-5
