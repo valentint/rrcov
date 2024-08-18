@@ -9,6 +9,7 @@
     \itemize{
       \item R/plot-utils - a bug fixed in function .rrpairs()
       \item man/*: Correct Rd file(s) with Rd \link{} targets missing package anchors
+      \item src/sest.cpp: Calloc() and Free() replaced by R_Calloc() and R_Free()
     }
   }
 }  

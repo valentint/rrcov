@@ -1,3 +1,5 @@
+#define STRICT_R_HEADERS 1
+
 /* TO DO -  FIXME
  * - Fix the parameters maxit, rtol and converged
  * - Fix "if(ires > 0) ... else"  -there is no need of such distinction
@@ -403,7 +405,7 @@ int refine_s(double **x, int n, int p, double *init_mu, double **init_sigma, dou
 	     double *mu, double **sigma, double *scale, double *rdis, double *weights)
 {
     double convtol = 1e-20;
-    double *mu_1 = (double *)Calloc(p, double);
+    double *mu_1 = (double *)R_Calloc(p, double);
     double **sigma_1 = mtxalloc(p,p);
     double **tmp_mat = mtxalloc(p,p);
     double sc, det;
@@ -457,7 +459,7 @@ int refine_s(double **x, int n, int p, double *init_mu, double **init_sigma, dou
     }
     *scale = sc;
 	
-    Free(mu_1);
+    R_Free(mu_1);
     mtxfree(sigma_1,p,p);
     mtxfree(tmp_mat,p,p);
 
@@ -572,12 +574,12 @@ void covar(double **a, int n, int p, double *t, double ** cov)
     int i;	
     double det;
     int rank;
-    int *id = (int *)Calloc(n, int);
+    int *id = (int *)R_Calloc(n, int);
     for(i=0; i<n; i++)
 	id[i] = i;
     //covp(a, n, p, id, n, t, cov);
     covp(a, &n, &p, id, &n, t, cov, &det, &rank); 
-    Free(id);
+    R_Free(id);
 }
 
 /*
@@ -705,9 +707,9 @@ double **mtxalloc(int n, int p)
 {
     int i;
 
-    double **a  = (double **) Calloc(n, double *);		
+    double **a  = (double **)R_Calloc(n, double *);		
     for(i=0; i<n; i++) 
-	a[i] = (double *) Calloc(p, double);
+	a[i] = (double *)R_Calloc(p, double);
     return a;
 }
 
@@ -716,8 +718,8 @@ void mtxfree(double **a, int n, int p)
 {
     int i;
     for(i=0; i<n; i++) 
-	Free(a[i]);
-    Free(a);
+	R_Free(a[i]);
+    R_Free(a);
 }
 
 // b <- a
@@ -758,12 +760,12 @@ double mymedabs(int n, double *x)
 {
     int i;
     double tmp;
-    double *vec = (double *)Calloc(n, double);
+    double *vec = (double *)R_Calloc(n, double);
     for(i=0; i<n; i++)
 	vec[i] = fabs(x[i]);
 
     tmp = mymed(n, vec);
-    Free(vec);
+    R_Free(vec);
     return(tmp);
 }
 

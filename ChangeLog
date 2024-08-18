@@ -4,7 +4,7 @@
     *
     * R/plot-utils - a bug fixed in function .rrpairs()
     * man/*: Correct Rd file(s) with Rd \link{} targets missing package anchors
-    *   
+    * src/sest.cpp: Calloc() and Free() replaced by R_Calloc() and R_Free()
     
 2024-01-30  Valentin Todorov  <valentin.todorov@chello.at>
     *
