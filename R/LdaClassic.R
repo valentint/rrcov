@@ -1,6 +1,7 @@
 ##  The S3 version
 LdaClassic <- function (x, ...) UseMethod("LdaClassic")
 
+#' @export
 LdaClassic.formula <- function(formula, data, ..., subset, na.action)
 {
     m <- match.call(expand.dots = FALSE)
@@ -29,7 +30,7 @@ LdaClassic.formula <- function(formula, data, ..., subset, na.action)
     res
 }
 
-
+#' @export
 LdaClassic.default <- function(x,
                  grouping,
                  prior = proportions,

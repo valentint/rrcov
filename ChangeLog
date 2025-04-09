@@ -1,3 +1,11 @@
+2025-04-10  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 1.7-7
+    *
+    * R/datadoc: removed a pipe in an example for ionosphere data set to avoid 
+    *   dependence on R 4.1.0
+    * R/*: added "#' export" to many functions to satisfy roxygen2
+    
 2024-08-17  Valentin Todorov  <valentin.todorov@chello.at>
     *
     * DESCRIPTION (Version): 1.7-6

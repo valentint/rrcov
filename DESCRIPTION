@@ -1,6 +1,6 @@
 Package: rrcov
-Version: 1.7-6
-VersionNote: Released 1.7-5 on 2024-01-30 on CRAN
+Version: 1.7-7
+VersionNote: Released 1.7-6 on 2024-08-19 on CRAN
 Title: Scalable Robust Estimators with High Breakdown Point
 Authors@R: c(person("Valentin", "Todorov", role = c("aut", "cre"), email = "valentin.todorov@chello.at", comment=c(ORCID = "0000-0003-4215-0245")))
 Description: Robust Location and Scatter Estimation and Robust
@@ -25,4 +25,4 @@ Packaged: 2020-08-06 21:57:03 UTC; Share
 NeedsCompilation: yes
 Author: Valentin Todorov [aut, cre] (<https://orcid.org/0000-0003-4215-0245>)
 Date/Publication: 2020-01-16 18:40:06 UTC
-RoxygenNote: 7.2.2
+RoxygenNote: 7.3.2

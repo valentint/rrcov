@@ -1,5 +1,6 @@
 Wilks.test <- function(x, ...) UseMethod("Wilks.test")
 
+#' @export
 Wilks.test.formula <- function(formula, data, ..., subset, na.action)
 {
     m <- match.call(expand.dots = FALSE)
@@ -29,6 +30,7 @@ Wilks.test.formula <- function(formula, data, ..., subset, na.action)
     res
 }
 
+#' @export
 Wilks.test.data.frame <- function(x, ...)
 {
     res <- Wilks.test(structure(data.matrix(x), class="matrix"), ...)
@@ -38,6 +40,7 @@ Wilks.test.data.frame <- function(x, ...)
     res
 }
 
+#' @export
 Wilks.test.matrix <- function(x, grouping, ..., subset, na.action)
 {
     if(!missing(subset)) {
@@ -72,6 +75,8 @@ Wilks.test.matrix <- function(x, grouping, ..., subset, na.action)
 ##  nrep - number of trials for the simulation for estimating xq and xd (default is 3000)
 ##  trace   -   whether to provide trace output (default is FALSE)
 ##
+
+#' @export
 Wilks.test.default <- function(x,
                             grouping,
                             method=c("c", "mcd", "rank"),

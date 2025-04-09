@@ -7,6 +7,7 @@ setMethod("getQuan", "PcaClassic", function(obj) obj@n.obs)
 ##  The S3 version
 PcaClassic <- function (x, ...) UseMethod("PcaClassic")
 
+#' @export
 PcaClassic.formula <- function (formula, data = NULL, subset, na.action, ...)
 {
     cl <- match.call()
@@ -43,6 +44,7 @@ PcaClassic.formula <- function (formula, data = NULL, subset, na.action, ...)
     res
 }
 
+#' @export
 PcaClassic.default <- function(x, k=ncol(x), kmax=ncol(x),
     scale=FALSE, signflip=TRUE, crit.pca.distances=0.975, trace=FALSE, ...)
 {

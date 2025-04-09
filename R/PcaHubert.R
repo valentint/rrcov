@@ -7,6 +7,7 @@ setMethod("getQuan", "PcaHubert", function(obj) obj@quan)
 ##  The S3 version
 PcaHubert <- function (x, ...) UseMethod("PcaHubert")
 
+#' @export
 PcaHubert.formula <- function (formula, data = NULL, subset, na.action, ...)
 {
     cl <- match.call()
@@ -43,6 +44,7 @@ PcaHubert.formula <- function (formula, data = NULL, subset, na.action, ...)
     res
 }
 
+#' @export
 PcaHubert.default <- function(x, k=0, kmax=10, alpha=0.75, mcd=TRUE, skew=FALSE, maxdir=250,
     scale=FALSE, signflip=TRUE, crit.pca.distances=0.975, trace=FALSE, ...)
 {

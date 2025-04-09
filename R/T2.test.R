@@ -1,5 +1,6 @@
 T2.test <- function(x, ...) UseMethod("T2.test")
 
+#' @export
 T2.test.default <- function(x, y = NULL, mu = 0, conf.level = 0.95, method=c("c", "mcd"), ...)
 {
     xcall <- match.call()
@@ -145,6 +146,7 @@ T2.test.default <- function(x, y = NULL, mu = 0, conf.level = 0.95, method=c("c"
     return(rval)
 }
 
+#' @export
 T2.test.formula <- function(formula, data, subset, na.action, ...)
 {
     if(missing(formula)

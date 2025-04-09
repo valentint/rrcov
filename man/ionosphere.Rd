@@ -44,7 +44,7 @@ data(ionosphere)
 }
 \examples{
  data(ionosphere)
- ionosphere[, 1:6] |> pairs()
+ pairs(ionosphere[, 1:6])
 }
 \references{
 Sigillito, V. G., Wing, S. P., Hutton, L. V., and Baker, K. B. (1989).

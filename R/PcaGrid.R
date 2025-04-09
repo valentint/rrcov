@@ -4,6 +4,7 @@ setMethod("getQuan", "PcaGrid", function(obj) obj@n.obs)
 PcaGrid <- function (x, ...)
     UseMethod("PcaGrid")
 
+#' @export
 PcaGrid.formula <- function (formula, data = NULL, subset, na.action, ...)
 {
     cl <- match.call()
@@ -40,6 +41,7 @@ PcaGrid.formula <- function (formula, data = NULL, subset, na.action, ...)
     res
 }
 
+#' @export
 PcaGrid.default <- function(x, k=0, kmax=ncol(x),
     scale=FALSE, na.action = na.fail, crit.pca.distances=0.975, trace=FALSE, ...)
 {

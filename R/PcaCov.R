@@ -4,6 +4,7 @@ setMethod("getQuan", "PcaCov", function(obj) obj@n.obs)
 PcaCov <- function (x, ...)
     UseMethod("PcaCov")
 
+#' @export
 PcaCov.formula <- function (formula, data = NULL, subset, na.action, ...)
 {
     cl <- match.call()
@@ -40,6 +41,7 @@ PcaCov.formula <- function (formula, data = NULL, subset, na.action, ...)
     res
 }
 
+#' @export
 PcaCov.default <- function(x, k=ncol(x), kmax=ncol(x), cov.control = CovControlMcd(),
     scale=FALSE, signflip=TRUE, crit.pca.distances=0.975,
     trace=FALSE, ...)

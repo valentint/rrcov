@@ -4,6 +4,14 @@
 \title{News for \R Package \pkg{rrcov}}
 \encoding{UTF-8}
 
+\section{CHANGES in rrcov VERSION 1.7-7 (2025-04-10)}{
+  \subsection{BUG FIXES}{
+    \itemize{
+      \item R/datadoc - emoved a pipe in an example for ionosphere data set to avoid dependence on R 4.1.0
+      \item R/*: added "#' export" to many functions to satisfy roxygen2
+    }
+  }
+}  
 \section{CHANGES in rrcov VERSION 1.7-6 (2024-08-17)}{
   \subsection{BUG FIXES}{
     \itemize{

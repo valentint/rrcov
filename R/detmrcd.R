@@ -64,15 +64,15 @@ r6pack <- function(x, h, full.h, adjust.eignevalues=TRUE, scaled=TRUE, scalefn=Q
     ## return the indices
     initset <- function(data, scalefn, P, h)
     {
-        stopifnot(length(d <- dim(data)) == 2, length(h) == 1, h >= 1)
-        n <- d[1]
-        stopifnot(h <= n)
-        lambda <- doScale(data %*% P, center=median, scale=scalefn)$scale
-        sqrtcov    <- P %*% (lambda * t(P)) ## == P %*% diag(lambda) %*% t(P)
-        sqrtinvcov <- P %*% (t(P) / lambda) ## == P %*% diag(1/lambda) %*% t(P)
-	estloc <- colMedians(data %*% sqrtinvcov) %*% sqrtcov
-        centeredx <- (data - rep(estloc, each=n)) %*% P
-	sort.list(mahalanobisD(centeredx, FALSE, lambda))[1:h]# , partial = 1:h
+       stopifnot(length(d <- dim(data)) == 2, length(h) == 1, h >= 1)
+       n <- d[1]
+       stopifnot(h <= n)
+       lambda <- doScale(data %*% P, center=median, scale=scalefn)$scale
+       sqrtcov    <- P %*% (lambda * t(P)) ## == P %*% diag(lambda) %*% t(P)
+       sqrtinvcov <- P %*% (t(P) / lambda) ## == P %*% diag(1/lambda) %*% t(P)
+	   estloc <- colMedians(data %*% sqrtinvcov) %*% sqrtcov
+       centeredx <- (data - rep(estloc, each=n)) %*% P
+	   sort.list(mahalanobisD(centeredx, FALSE, lambda))[1:h]# , partial = 1:h
     }
 
     ##
@@ -457,7 +457,7 @@ eigenEQ <- function(T)
     }
 
     hsets.init <- hsets.init[1:h, ]
-    scfac <- .MCDcons(p, h/n)           # for consistency with MCD
+    scfac <- robustbase::.MCDcons(p, h/n)           # for consistency with MCD
 
     ## 3.4 Determine smallest value of rho_i for each subset
     rho6pack <- condnr <- c()

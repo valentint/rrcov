@@ -8,6 +8,7 @@ setMethod("getQuan", "PcaLocantore", function(obj) obj@n.obs)
 PcaLocantore <- function (x, ...)
     UseMethod("PcaLocantore")
 
+#' @export
 PcaLocantore.formula <- function (formula, data = NULL, subset, na.action, ...)
 {
     cl <- match.call()
@@ -44,6 +45,7 @@ PcaLocantore.formula <- function (formula, data = NULL, subset, na.action, ...)
     res
 }
 
+#' @export
 PcaLocantore.default <- function(x, k=ncol(x), kmax=ncol(x), delta = 0.001, na.action = na.fail,
     scale=FALSE, signflip=TRUE, crit.pca.distances=0.975, trace=FALSE, ...)
 {

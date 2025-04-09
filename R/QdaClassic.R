@@ -1,6 +1,7 @@
 ##  The S3 version
 QdaClassic <- function (x, ...) UseMethod("QdaClassic")
 
+#' @export
 QdaClassic.formula <- function(formula, data, ..., subset, na.action)
 {
     m <- match.call(expand.dots = FALSE)
@@ -30,6 +31,7 @@ QdaClassic.formula <- function(formula, data, ..., subset, na.action)
 }
 
 
+#' @export
 QdaClassic.default <- function(x,
                  grouping,
                  prior = proportions,

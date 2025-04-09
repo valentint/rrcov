@@ -144,6 +144,7 @@ setMethod("show", "SummaryLda", function(object){
     ans
 }
 
+#' @export
 print.wcov <- function(x, ...)
 {
     if(!is.null(cl <- x$call)) {

@@ -4,6 +4,7 @@ setMethod("getQuan", "PcaProj", function(obj) obj@n.obs)
 PcaProj <- function (x, ...)
     UseMethod("PcaProj")
 
+#' @export
 PcaProj.formula <- function (formula, data = NULL, subset, na.action, ...)
 {
     cl <- match.call()
@@ -40,6 +41,7 @@ PcaProj.formula <- function (formula, data = NULL, subset, na.action, ...)
     res
 }
 
+#' @export
 PcaProj.default <- function(x, k=0, kmax=ncol(x),
     scale=FALSE, na.action = na.fail, crit.pca.distances=0.975,
     trace=FALSE, ...)

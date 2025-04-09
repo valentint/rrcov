@@ -1,6 +1,7 @@
 ##  The S3 version
 Linda <- function (x, ...) UseMethod("Linda")
 
+#' @export
 Linda.formula <- function(formula, data, ..., subset, na.action)
 {
     m <- match.call(expand.dots = FALSE)
@@ -29,6 +30,7 @@ Linda.formula <- function(formula, data, ..., subset, na.action)
     res
 }
 
+#' @export
 Linda.default <- function(x,
                  grouping,
                  prior = proportions,

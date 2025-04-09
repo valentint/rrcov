@@ -1,3 +1,4 @@
+#' @export
 transform.ilr <- function(x)
 {
     x.ilr <- x[, -ncol(x), drop=FALSE]

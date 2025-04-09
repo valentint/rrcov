@@ -1,6 +1,7 @@
 ##  The S3 version
 QdaCov <- function (x, ...) UseMethod("QdaCov")
 
+#' @export
 QdaCov.formula <- function(formula, data, ..., subset, na.action)
 {
     m <- match.call(expand.dots = FALSE)
@@ -29,6 +30,7 @@ QdaCov.formula <- function(formula, data, ..., subset, na.action)
     res
 } 
 
+#' @export
 QdaCov.default <- function(x, 
                  grouping, 
                  prior = proportions, 

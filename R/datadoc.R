@@ -216,5 +216,5 @@ NULL
 #'      networks. Johns Hopkins APL Technical Digest, 10, 262-266.
 #' @examples
 #'  data(ionosphere)
-#'  ionosphere[, 1:6] |> pairs()
+#'  pairs(ionosphere[, 1:6])
 NULL

@@ -1,6 +1,7 @@
 ##  The S3 version
 LdaPP <- function (x, ...) UseMethod("LdaPP")
 
+#' @export
 LdaPP.formula <- function(formula, data, subset, na.action, ...)
 {
     m <- match.call(expand.dots = FALSE)
@@ -29,6 +30,7 @@ LdaPP.formula <- function(formula, data, subset, na.action, ...)
     res
 }
 
+#' @export
 LdaPP.default <- function(x,
                  grouping,
                  prior = proportions,
