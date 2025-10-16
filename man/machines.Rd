@@ -26,6 +26,7 @@ data(machines)
 }
 \description{
 A data set containing relative CPU performance data of 209 machines on 8 variables.
+ The \code{rownames} are the vendor and model descriptions. Six of the variables
  are predictive, one (\code{PRP}) is the goal field and one (\code{ERP}) is the
  linear regression's guess. The estimated relative performance values were
  estimated by the authors using a linear regression method.  See their article

@@ -1,5 +1,4 @@
-#' @export
-transform.ilr <- function(x)
+transform_ilr <- function(x)
 {
     x.ilr <- x[, -ncol(x), drop=FALSE]
     colnames(x.ilr) <- paste("X", 1:ncol(x.ilr), sep="")
